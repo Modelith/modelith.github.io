@@ -5,9 +5,9 @@ aside: false
 # 対応している書き方
 
 Modelith は、SysML v2 のテキストの書き方のうち、よく使う部分から対応しています。
-まだ読めない書き方は、ふつうは問題一覧に「まだ扱えない」と知らせますが、一部は知らせずに読み飛ばします。また、いくつかの書き方では、誤ったエラーや表示が出ます（0.1.0-alpha.10 で直します）。
+まだ読めない書き方は、ふつうは問題一覧に「まだ扱えない」と知らせますが、一部は知らせずに読み飛ばします。
 
-この表は **0.1.0-alpha.9** 時点の要約です（2026-10-20 に [SysML v2 の規格](https://github.com/Systems-Modeling/SysML-v2-Release) と照合しました）。書き方ごとの詳しい状況は、modelith リポジトリの [SysML v2 仕様との対応表](https://github.com/modelith/modelith/blob/dev/docs/reference/sysml-conformance.md) を見てください。
+この表は **0.1.0-alpha.10** 時点の要約です（2026-10-20 に [SysML v2 の規格](https://github.com/Systems-Modeling/SysML-v2-Release) と照合しました）。書き方ごとの詳しい状況は、modelith リポジトリの [SysML v2 仕様との対応表](https://github.com/modelith/modelith/blob/dev/docs/reference/sysml-conformance.md) を見てください。
 
 ## まとめ
 
@@ -15,10 +15,9 @@ Modelith は、SysML v2 のテキストの書き方のうち、よく使う部�
 
 | 状況 | 項目の数 | 意味 |
 | --- | --- | --- |
-| ✅ 使える | 81 | モデルに取り込み、ツリーや図（要素の情報はインスペクタ）に出ます |
+| ✅ 使える | 98 | モデルに取り込み、ツリーや図（要素の情報はインスペクタ）に出ます |
 | 🟡 一部だけ使える | 16 | 一部だけ取り込みます。または、書いても中身を使いません |
-| ⚠️ 誤った表示が出る | 12 | 正しい書き方なのに、誤ったエラーや「見つかりません」が出ます。0.1.0-alpha.10 で直します |
-| ❌ まだ使えない | 10 | 取り込みません（エラーにせずに読み飛ばすものを含みます） |
+| ❌ まだ使えない | 5 | 取り込みません（エラーにせずに読み飛ばすものを含みます） |
 
 ::: info 仕様への適合について
 Modelith は SysML v2 と KerML の仕様をもとに作っていますが、仕様への適合（conformance）はうたっていません。
@@ -34,20 +33,20 @@ Modelith は SysML v2 と KerML の仕様をもとに作っていますが、仕
 | 名前 | 引用名 `'Fuel Tank'`・短い名前 `<R1>`・修飾名 `A::B`・`alias` | 🟡 | 同じファイルの中だけ解決する | 0.2.0 |
 | 構造 | `part`・`item`・`attribute`・`port`・`enum`・`occurrence` の定義と使用、`event occurrence`・`timeslice`・`snapshot`・`individual` | ✅ | | |
 | | 型付け `:`・特殊化 `:>`・再定義 `:>>`・参照 `::>`・多重度 `[0..4]`・値 `=`・`:=`・`default`・向き `in`・`out` | ✅ | `: A, B` は先頭の型だけ | — |
-| | キーワードの無い特性 `x : Real;`、型の無い `ref r;`、`crosses`・`=>`、`'~Pt'` の共役ポート | ⚠️ | 捨てるか、読み違える | alpha.10 |
-| つながり | `connection`・`connect`（3 つ以上をつなぐ形を含む）・`interface`・`bind`・`allocate`・`dependency` | ✅ | | |
-| | `flow`・`flow def`・`message`・`succession flow` | 🟡 | `flow a to b;` など、`from`・`first` の無い短い形を捨てる。定義の中の型の無い部品を端にすると「見つかりません」と出る | alpha.10 |
+| | キーワードの無い特性 `x : Real;`・`ref r;`・交差 `=>`・`crosses`・共役ポート `~Pt` | ✅ | | |
+| つながり | `connection`・`connect`（3 つ以上をつなぐ形を含む）・`interface`（`connect` を省いた形を含む）・`bind`・`allocate`・`dependency` | ✅ | | |
+| | `flow`・`flow def`・`message`・`succession flow`（`from` を省いた短い形を含む） | ✅ | | |
 | 振る舞い | `action`・順序 `first … then`・`fork`・`join`・`merge`・`decide`・`send`・`accept`・`assign`・`terminate`・`if`・`while`・`for` | ✅ | アクションのパラメータとその間のフローを図に描かない | 0.3.0 以降 |
 | | `state`・遷移 `transition`（きっかけ・条件・動作と省略形）・`entry`・`do`・`exit`・`parallel` | ✅ | 状態の使用の中の遷移を図に描かない | 0.3.0 以降 |
-| | `perform`・`exhibit` | 🟡 | 既存の要素を指す形 `perform x.y;`・`exhibit s;` を読まない | alpha.10 |
-| | `calc`・`constraint` | ⚠️ | 本体が `true`・`false`・`not` で始まると、誤った構文エラーが出る | alpha.10 |
+| | `perform`・`exhibit`（既存の要素を指す `perform x.y;`・`exhibit s;` を含む）、`calc`・`constraint` | ✅ | | |
 | 要求と検証 | `requirement`・`subject`・`stakeholder`・`actor`・`concern`・`case`・`analysis`・`verification`・`use case`・`#derivation dependency` | ✅ | | |
-| | `satisfy`・`verify`・`frame` | ⚠️ | 宣言する形 `satisfy requirement r : R by x;` で誤った「見つかりません」が出る。`frame c;` を読まない | alpha.10 |
+| | `satisfy`（`by` の無い形・宣言する形を含む）・`frame` | ✅ | | |
+| | `verify` | 🟡 | 型の無い検証の使用の中では線を引かない | — |
 | | `objective`・`assert constraint`・`assert not` | 🟡 | 中身を外側の要素に入れる | 0.3.0 以降 |
 | ビュー | `view`・`view def`・`expose`・`filter`（`and`・`or`・`not` などの式）・`render` | 🟡 | メタデータの値を比べる `filter`、表や文字の形の `render` は使えない | 0.3.0 以降 |
-| 注釈 | `doc`・`comment … about`（メモ）・`rep`・`metadata def`・`#M`・`metadata … about`・自分で決めたキーワード | ⚠️ | `@M { :>> x = 1; }` の値と、関係の本体の `doc` を読み違える | alpha.10 |
-| 式 | 式・単位 `1500 [kg]` | 🟡 | 文字列として持つだけで、計算しない。`->collect{ … }` で誤った構文エラーが出る | alpha.10・0.3.0 以降 |
-| その他 | KerML、標準ライブラリ、モデル交換の形式（`.kpar`） | ❌ | KerML の宣言の中身が外に漏れて表示される | alpha.10・0.3.0 以降 |
+| 注釈 | `doc`・`comment … about`（メモ）・`rep`・`metadata def`・`#M`・`metadata … about`・自分で決めたキーワード | ✅ | 関係（`dependency`・`alias`）の本体の `doc` は記録しない | — |
+| 式 | 式・単位 `1500 [kg]`・`->collect{ … }` | 🟡 | 文字列として持つだけで、計算しない | 0.3.0 以降 |
+| その他 | KerML、標準ライブラリ、モデル交換の形式（`.kpar`） | ❌ | KerML の宣言は「まだ扱えない」と知らせる | 0.3.0 以降 |
 
 ## 図（標準のビュー）の状況
 
