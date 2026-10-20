@@ -5,21 +5,20 @@ aside: false
 # 対応している書き方
 
 Modelith は、SysML v2 のテキストの書き方のうち、よく使う部分から対応しています。
-まだ読めない書き方は、エラーにせず、問題一覧に「まだ扱えない」と知らせます（一部は知らせずに読み飛ばします）。
+まだ読めない書き方は、ふつうは問題一覧に「まだ扱えない」と知らせますが、一部は知らせずに読み飛ばします。また、いくつかの書き方では、誤ったエラーや表示が出ます（0.1.0-alpha.10 で直します）。
 
-この表は **0.1.0-alpha.9** 時点の要約です。書き方ごとの詳しい状況は、modelith リポジトリの [SysML v2 仕様との対応表](https://github.com/modelith/modelith/blob/dev/docs/reference/sysml-conformance.md) を見てください。
+この表は **0.1.0-alpha.9** 時点の要約です（2026-10-20 に [SysML v2 の規格](https://github.com/Systems-Modeling/SysML-v2-Release) と照合しました）。書き方ごとの詳しい状況は、modelith リポジトリの [SysML v2 仕様との対応表](https://github.com/modelith/modelith/blob/dev/docs/reference/sysml-conformance.md) を見てください。
 
 ## まとめ
 
-対応表では、テキストの書き方 **96 項目** を調べています。
+対応表では、規格の文法（BNF）にあるテキストの書き方 **119 項目** を調べています。
 
 | 状況 | 項目の数 | 意味 |
 | --- | --- | --- |
-| ✅ 使える | 82 | モデルに取り込み、ツリーや図（要素の情報はインスペクタ）に出ます |
-| 🟡 一部だけ使える | 10 | 一部だけ取り込みます。または、書いても中身を使いません |
-| ❌ まだ使えない | 4 | 取り込みません（エラーにせずに読み飛ばすものを含みます） |
-
-正しい書き方を、別の意味に取り違えて誤った表示をする項目は 0 件です。
+| ✅ 使える | 81 | モデルに取り込み、ツリーや図（要素の情報はインスペクタ）に出ます |
+| 🟡 一部だけ使える | 16 | 一部だけ取り込みます。または、書いても中身を使いません |
+| ⚠️ 誤った表示が出る | 12 | 正しい書き方なのに、誤ったエラーや「見つかりません」が出ます。0.1.0-alpha.10 で直します |
+| ❌ まだ使えない | 10 | 取り込みません（エラーにせずに読み飛ばすものを含みます） |
 
 ::: info 仕様への適合について
 Modelith は SysML v2 と KerML の仕様をもとに作っていますが、仕様への適合（conformance）はうたっていません。
@@ -28,45 +27,38 @@ Modelith は SysML v2 と KerML の仕様をもとに作っていますが、仕
 
 ## 書き方の分類ごとの状況
 
-| 書き方の分類 | 状況 | 足りないところ | 予定 |
-| --- | :---: | --- | --- |
-| 名前とコメント（基本の名前・引用名 `'Fuel Tank'`・短い名前 `<R1>`・コメント・文字列） | ✅ | | |
-| 修飾名 `A::B` | 🟡 | 同じファイルの中だけ。`import` を通した名前と、ほかのファイルの名前は解決しない | 0.2.0 |
-| 依存と注釈（`dependency`・`#derivation dependency`・`doc`・`comment … about`・`rep`） | ✅ | | |
-| パッケージ（`package`・入れ子・`library package`） | ✅ | | |
-| `import` | ❌ | 読み飛ばす。ほかのファイルは読まない | 0.2.0 |
-| `alias` | 🟡 | 同じファイルの中だけ | 0.2.0 |
-| 可視性（`private`・`public`・`protected`） | 🟡 | 記録するだけ | 0.2.0 |
-| パッケージの直下の `filter` | ❌ | 読み飛ばす | 0.2.0 |
-| 定義と使用（型付け `:`・特殊化 `:>`・部分集合・再定義 `:>>`・参照 `::>`・多重度・値 `=`・`:=`・`default`・向き `in`・`out`） | ✅ | | |
-| 属性・列挙・出来事・アイテム・部品・ポート（`attribute`・`enum`・`occurrence`・`item`・`part`・`port` の定義と使用） | ✅ | | |
-| 接続と流れ（`connection`・`connect`・3 つ以上をつなぐ `connect`・`bind`・`interface`・`allocation`・`allocate`・`flow`・`succession flow`・`message`） | ✅ | | |
-| アクション（`action`・`perform action`・順序 `first … then`・`fork`・`join`・`merge`・`decide`・`send`・`accept`・`assign`・`terminate`・`if`・`while`・`for`） | ✅ | | |
-| 状態（`state`・`exhibit state`・`parallel`・`entry`・`do`・`exit`・`transition` とその省略形） | ✅ | | |
-| 計算・制約（`calc`・`constraint`・`require`・`assume`） | ✅ | | |
-| `assert constraint`・`assert not constraint` | 🟡 | 式として残すだけ。否定（`not`）を記録しない形がある | 0.3.0 以降 |
-| 要求とケース（`requirement`・`subject`・`stakeholder`・`actor`・`satisfy`・`concern`・`frame`・`case`・`analysis`・`verification`・`use case`・`include use case`） | ✅ | | |
-| `objective` | 🟡 | 中身は外側の要素に入れる（目的の要求そのものは要素にしない） | |
-| `verify` | 🟡 | 型の無い検証の使用の中では線を引かない | |
-| ビュー（`view def`・`view`・ビューの中の `filter`・`render rendering …`・`viewpoint`・`rendering`） | ✅ | | |
-| `expose` | 🟡 | `import` を通した名前は解決しない | 0.2.0 |
-| `render asTreeDiagram` など（参照の形） | 🟡 | `asTextualNotation`・`asElementTable` に当たる描き方が無い | 0.3.0 以降 |
-| メタデータ（`metadata def`・`@M`・`metadata … about`・前置の `#M`・自分で決めたキーワード `#X def`） | ✅ | | |
-| 特徴量の連鎖 `a.b.c.p` | ✅ | | |
-| 式と単位 `1500 [kg]` | 🟡 | 文字列として持つだけで、計算しない | 0.3.0 以降 |
-| KerML のキーワード（`classifier`・`feature`・`function` など） | ❌ | 読み飛ばす。`.kerml` のファイルは開けるが、中身は読めない | 0.3.0 以降 |
-| まだ扱えない文 | 🟡 | キーワードで始まり、どの読み方にも当たらない文は「まだ扱えない」と知らせる | — |
+| 分類 | 書き方 | 状況 | 足りないところ | 予定 |
+| --- | --- | :---: | --- | --- |
+| パッケージ | `package`（入れ子を含む）、`library package` | ✅ | ライブラリの印は記録しない | — |
+| | `import`、パッケージの直下の `filter`、可視性 `private`・`public` | ❌ | ほかのパッケージやファイルの名前を `import` で取り込めない | 0.2.0 |
+| 名前 | 引用名 `'Fuel Tank'`・短い名前 `<R1>`・修飾名 `A::B`・`alias` | 🟡 | 同じファイルの中だけ解決する | 0.2.0 |
+| 構造 | `part`・`item`・`attribute`・`port`・`enum`・`occurrence` の定義と使用、`event occurrence`・`timeslice`・`snapshot`・`individual` | ✅ | | |
+| | 型付け `:`・特殊化 `:>`・再定義 `:>>`・参照 `::>`・多重度 `[0..4]`・値 `=`・`:=`・`default`・向き `in`・`out` | ✅ | `: A, B` は先頭の型だけ | — |
+| | キーワードの無い特性 `x : Real;`、型の無い `ref r;`、`crosses`・`=>`、`'~Pt'` の共役ポート | ⚠️ | 捨てるか、読み違える | alpha.10 |
+| つながり | `connection`・`connect`（3 つ以上をつなぐ形を含む）・`interface`・`bind`・`allocate`・`dependency` | ✅ | | |
+| | `flow`・`flow def`・`message`・`succession flow` | 🟡 | `flow a to b;` など、`from`・`first` の無い短い形を捨てる。定義の中の型の無い部品を端にすると「見つかりません」と出る | alpha.10 |
+| 振る舞い | `action`・順序 `first … then`・`fork`・`join`・`merge`・`decide`・`send`・`accept`・`assign`・`terminate`・`if`・`while`・`for` | ✅ | アクションのパラメータとその間のフローを図に描かない | 0.3.0 以降 |
+| | `state`・遷移 `transition`（きっかけ・条件・動作と省略形）・`entry`・`do`・`exit`・`parallel` | ✅ | 状態の使用の中の遷移を図に描かない | 0.3.0 以降 |
+| | `perform`・`exhibit` | 🟡 | 既存の要素を指す形 `perform x.y;`・`exhibit s;` を読まない | alpha.10 |
+| | `calc`・`constraint` | ⚠️ | 本体が `true`・`false`・`not` で始まると、誤った構文エラーが出る | alpha.10 |
+| 要求と検証 | `requirement`・`subject`・`stakeholder`・`actor`・`concern`・`case`・`analysis`・`verification`・`use case`・`#derivation dependency` | ✅ | | |
+| | `satisfy`・`verify`・`frame` | ⚠️ | 宣言する形 `satisfy requirement r : R by x;` で誤った「見つかりません」が出る。`frame c;` を読まない | alpha.10 |
+| | `objective`・`assert constraint`・`assert not` | 🟡 | 中身を外側の要素に入れる | 0.3.0 以降 |
+| ビュー | `view`・`view def`・`expose`・`filter`（`and`・`or`・`not` などの式）・`render` | 🟡 | メタデータの値を比べる `filter`、表や文字の形の `render` は使えない | 0.3.0 以降 |
+| 注釈 | `doc`・`comment … about`（メモ）・`rep`・`metadata def`・`#M`・`metadata … about`・自分で決めたキーワード | ⚠️ | `@M { :>> x = 1; }` の値と、関係の本体の `doc` を読み違える | alpha.10 |
+| 式 | 式・単位 `1500 [kg]` | 🟡 | 文字列として持つだけで、計算しない。`->collect{ … }` で誤った構文エラーが出る | alpha.10・0.3.0 以降 |
+| その他 | KerML、標準ライブラリ、モデル交換の形式（`.kpar`） | ❌ | KerML の宣言の中身が外に漏れて表示される | alpha.10・0.3.0 以降 |
 
 ## 図（標準のビュー）の状況
 
-| 標準のビュー | 画面での名前 | 状況 | 足りないところ | 予定 |
-| --- | --- | :---: | --- | --- |
-| GeneralView | 一般ビュー（ブロック定義図・トレーサビリティなど） | 🟡 | 定義の中の特性どうしの線、`rep`・`doc` の記号 | — |
-| InterconnectionView | 内部ブロック図 | 🟡 | 対象そのもののポートへの線、入れ子の部品のポートを作る操作 | — |
-| ActionFlowView | アクティビティ図 | 🟡 | アクションのパラメータとその間のフロー、入れ子の流れ、区画（スイムレーン） | 0.3.0 以降 |
-| StateTransitionView | 状態遷移図 | 🟡 | 状態の使用の中の遷移、複数の状態定義、線の交差を避ける配置 | 0.3.0 以降 |
-| SequenceView | シーケンス図 | 🟡 | 分岐や繰り返しの枠（`alt`・`loop`）、入れ子のシーケンス図、図からイベントや順序を足す操作 | 0.3.0 以降 |
-| GeometryView・GridView・BrowserView | ジオメトリビュー・グリッドビュー・ブラウザビュー | ❌ | ノードと線の図で代わりに描き、そのことを知らせる | 0.3.0 以降 |
+| 図の種類（SysML v2 の標準ビュー） | 状況 | 足りないところ | 予定 |
+| --- | :---: | --- | --- |
+| ブロック定義図・一般の図（GeneralView） | 🟡 | パッケージの直下の使用のうち、図に出るのは `part`・`requirement` だけ。ユースケースの楕円・アクターの記号が無い | — |
+| 内部ブロック図（InterconnectionView） | 🟡 | 対象そのもののポートへの線と、入れ子の部品のポートを図から作る操作が無い | — |
+| アクティビティ図（ActionFlowView） | 🟡 | パラメータとその間のフロー、区画（スイムレーン）が無い | 0.3.0 以降 |
+| 状態遷移図（StateTransitionView） | 🟡 | 状態の使用の中の遷移と、2 つ目以降の状態定義を描かない | 0.3.0 以降 |
+| シーケンス図（SequenceView） | 🟡 | 分岐や繰り返しの枠（`alt`・`loop`）が無く、図からイベントや順序を足せない | 0.3.0 以降 |
+| ジオメトリ・グリッド・ブラウザ（GeometryView・GridView・BrowserView） | ❌ | 一般の図で代わりに描き、そのことを知らせる | 0.3.0 以降 |
 
 ## まだ使えない仕組み
 
