@@ -6,7 +6,7 @@ titleTemplate: SysML v2 モデリングエディタの使い方
 hero:
   name: Modelith
   text: 書いても、描いても、同じモデル
-  tagline: テキストと図を同期して編集できる、オープンソースの SysML v2 モデリングエディタです。ブラウザを開くだけで使えます。
+  tagline: 図だけでも、テキストだけでも、両方を行き来しても、同じ SysML v2 のモデルを作れるオープンソースのエディタです。ブラウザを開くだけで使えます。
   image:
     src: /logo.svg
     alt: Modelith のロゴ
@@ -22,11 +22,21 @@ hero:
       link: /guide/what-is-modelith
 
 features:
-  - icon: ⇄
-    title: テキストと図が同期する
-    details: テキストを打てば図に反映し、図で要素や関係を足せばテキストが書き換わります。正本はいつもテキストです。
+  - icon: ✎
+    title: 図だけで描く
+    details: パレットで要求や部品を置き、線を引くだけでモデルを作れます。SysML v2 の書き方を知らなくても始められます。
     link: /guide/getting-started
     linkText: はじめての図
+  - icon: ⌨
+    title: テキストだけで書く
+    details: 書き方を知っていれば、テキストを打つだけで図が描かれます。モデルはただのテキストファイルなので、Git で差分を追えます。
+    link: /guide/text-and-diagram#テキストだけで書く
+    linkText: テキストで書く
+  - icon: ⇄
+    title: 両方を行き来する
+    details: 図で足せばテキストが書き換わり、テキストを直せば図が変わります。どの方法で作っても、同じモデル・同じファイルになります。
+    link: /guide/text-and-diagram#図とテキストを行き来する
+    linkText: 図とテキストを行き来する
   - icon: ▦
     title: 目的に合わせた図
     details: トレーサビリティ・ブロック定義図・内部ブロック図・シーケンス図・アクティビティ図・状態遷移図など、同じモデルを見たい切り口で表示できます。
@@ -39,7 +49,7 @@ features:
     linkText: トレーサビリティ
   - icon: ⌂
     title: モデルは手元から出ない
-    details: インストールもアカウントも不要です。モデルを外部に送信せず、アクセス解析も使いません。モデルはただのテキストファイルなので、Git で差分を追えます。
+    details: インストールもアカウントも不要です。モデルを外部に送信せず、アクセス解析も使いません。
     link: /guide/what-is-modelith
     linkText: 動作環境とデータの扱い
   - icon: ⚑

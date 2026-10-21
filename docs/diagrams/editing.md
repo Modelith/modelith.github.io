@@ -1,6 +1,7 @@
 # 図の操作と書き出し
 
 どの図にも共通の操作をまとめます。図での操作は、すべてテキストの書き換えになります（図の配置だけは、配置ファイルに保存します）。
+要素を置く・名前を変える・関係を足す・消すといった操作は、テキストを書かずに図だけで行えます。
 
 ## 選ぶ
 
@@ -49,6 +50,25 @@
 | 信号・物理量を流す（flow） | 部品 → 部品 | `flow from a to b;` |
 | この後に実行する（順序 succession） | アクティビティ図の要素どうし | `first a then b;` |
 | この状態から遷移する（transition） | 状態遷移図の状態どうし | `transition first a then b;` |
+
+名前は、英字か `_` で始め、英字・数字・`_` だけで付けます。日本語の名前を付けるときは、テキストで `'…'` で囲んで書きます（例：`part def '電池';`）。
+
+## 図に道具の無いもの
+
+次のものは、図からは足したり変えたりできません。**テキストで書きます。** 書いたものは図に描かれ、図で選んだり消したりできます。
+
+| もの | テキストの例 | 詳しく |
+| --- | --- | --- |
+| 要求の文章 | `doc /* 夜道で 10 m 先まで照らせる */`（要求を図で置くと「ここに要求文を書く」が入るので、そこを書き換えます） | [トレーサビリティ](/diagrams/traceability#テキストで書く) |
+| 属性とその値 | `attribute voltage = 3.7;` | [ブロック定義図](/diagrams/block-definition#テキストで書く) |
+| 定義を引き継ぐ（特殊化）など | `part def RobotVacuum :> Vacuum;` | [ブロック定義図](/diagrams/block-definition#テキストで書く) |
+| 依存・割り当て・メモ | `dependency A to B;`・`allocate A to B;`・`comment c about A /* … */` | [すべて](/diagrams/all#テキストで書く) |
+| 制約の式・計算の中身 | `constraint def C { t >= 90 }` | [制御ループ](/diagrams/control-loop#テキストで書く) |
+| 接続・結び付け、入れ子の部品とそのポート、部品の名前の変更 | `connect a.p to b.p;`・`bind a.x = b.y;` | [内部ブロック図](/diagrams/internal-block#テキストで書く) |
+| アクション・開始・終了・分岐など | `then action sweep;`・`decide d;` | [アクティビティ図](/diagrams/activity#テキストで書く) |
+| 状態、遷移のきっかけ・条件・動作 | `state idle;`・`accept StartCommand` | [状態遷移図](/diagrams/state-machine#テキストで書く) |
+| イベントとイベントの順序 | `event occurrence press;`・`first a.x then b.y;` | [シーケンス図](/diagrams/sequence#テキストで書く) |
+| 保存された図の絞り込み・描き方 | `filter @SysML::PartDefinition;`・`render asTreeDiagram;` | [保存された図](/diagrams/saved-views#テキストで書く) |
 
 ## 右クリックのメニュー
 

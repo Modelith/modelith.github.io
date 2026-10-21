@@ -15,9 +15,28 @@ SysML v2 では GeneralView で描く図に当たります。
 | シナリオ（`occurrence def`） | 名前 |
 | これらを持つ要素 | 振る舞いを部品として持つ要素も表示し、実線でつなぎます |
 
-## 図で足す
+## 図で操作する
 
-パレットの「状態定義」・「アクション定義」・「シナリオ」で要素を置けます。中身（アクションや状態）は、テキストで書くか、それぞれの図で書き足します。
+- パレットの「状態定義」・「アクション定義」・「シナリオ」で要素を置けます。名前を変える・削除するのも図でできます。
+- シナリオの中身（ライフラインとメッセージ）は、[シーケンス図](/diagrams/sequence#図で操作する) で図の操作だけで足せます。
+- 箱をモデルのツリーから開くと、それぞれの図（アクティビティ図・状態遷移図・シーケンス図）に移ります。
+
+## テキストで書く
+
+アクション定義の中のアクションと、状態定義の中の状態は、**図からは足せません。テキストで書きます。** 書き方は [アクティビティ図](/diagrams/activity#テキストで書く) と [状態遷移図](/diagrams/state-machine#テキストで書く) を見てください。
+
+```sysml
+action def CleanRoom {
+    first start;
+    then action leaveDock;
+    then action sweep;
+}
+state def VacuumStates {
+    entry; then idle;
+    state idle;
+    state cleaning;
+}
+```
 
 ::: tip 例のモデル
 この図のモデルは <a href="/examples/robot-vacuum.sysml" download>robot-vacuum.sysml</a> です。
