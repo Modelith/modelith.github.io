@@ -25,7 +25,7 @@ jobs:
           fetch-depth: 0 # ページの「最終更新」に Git の履歴を使う
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 22.23.4
           cache: npm
       - uses: actions/configure-pages@v5
       - run: npm ci
