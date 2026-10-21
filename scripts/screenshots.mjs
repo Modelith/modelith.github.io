@@ -140,7 +140,7 @@ async function pickContext(page, name) {
 /** メニューバーの「表示」から、ツリーの表示を切り替える。 */
 async function toggleTree(page) {
   await page.locator("#viewMenu summary").click();
-  await toggleTree(page);
+  await page.locator("#togTree").click();
   await settle(page, 300);
 }
 
@@ -345,8 +345,6 @@ async function desktopShots(browser, colorScheme) {
     const pop = await boxOf(page, "#diagramMenu .pop", 8);
     await shot(page, "menubar", { clip: { x: 0, y: 0, width: 760, height: pop.y + pop.height - bar.y } });
   }
-  await page.locator("#fileMenu summary").hover();
-  await settle(page, 300);
   await page.locator("#btnDrawio").click();
   await settle(page, 300);
   await shot(page, "export-drawio", { clip: await boxOf(page, "#modal .box", 8) });
@@ -373,6 +371,14 @@ async function desktopShots(browser, colorScheme) {
   });
   if (hl >= 0) {
     const span = page.locator('#hl span:text-is("requirement")').first();
+    // 語がテキストの欄の外にあれば、欄を動かして見える位置に出す
+    const top = (await page.locator("#ed").boundingBox()).y;
+    const off = (await span.boundingBox()).y - top - 120;
+    await page.locator("#ed").evaluate((ed, d) => {
+      ed.scrollTop += d;
+      ed.dispatchEvent(new Event("scroll"));
+    }, off);
+    await settle(page, 300);
     const b = await span.boundingBox();
     await page.mouse.move(b.x + 10, b.y + b.height / 2);
     await page.mouse.move(b.x + 14, b.y + b.height / 2);

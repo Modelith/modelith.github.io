@@ -46,7 +46,10 @@ Modelith の画面は、左から **サイドバー（エクスプローラー�
 - 「表示」の「ツリー」「テキスト」を押すと、サイドバーやテキストを隠して、図を広く使えます。もう一度押すと戻ります。
 - 幅の狭い画面では、メニューは左上の「☰」の 1 つにまとまります → [スマホの画面](#スマホの画面)
 
-![ファイルのメニュー](/images/file-menu.jpg)
+<div class="figs">
+<img src="/images/menubar.jpg" alt="メニューバー。「図」のメニューを開いたところ">
+<img src="/images/file-menu.jpg" alt="ファイルのメニュー">
+</div>
 
 ## サイドバー
 
@@ -175,6 +178,7 @@ Modelith の画面は、左から **サイドバー（エクスプローラー�
 <img class="phone" src="/images/phone-diagram.jpg" alt="スマホでシーケンス図を見ている画面">
 <img class="phone" src="/images/phone-plus-menu.jpg" alt="スマホの＋メニュー。図の名前の下に SysML v2 のビューの名前">
 <img class="phone" src="/images/phone-text.jpg" alt="スマホのテキスト。読み取り専用で、右上に「編集」ボタン">
+<img class="phone" src="/images/phone-menu.jpg" alt="スマホの「☰」のメニュー。ファイル・編集・表示・図・プラグイン・ヘルプが縦に並ぶ">
 </div>
 
 ## キーボードの操作
