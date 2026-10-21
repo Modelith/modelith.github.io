@@ -18,7 +18,8 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.23.4
+          node-version: 22
+          check-latest: true  # 毎回その時点の最新の 22.x を使う（セキュリティリリースをすぐ取り込む）
           cache: npm
       - run: npm ci
       - run: npm run docs:build
