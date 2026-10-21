@@ -47,7 +47,7 @@
 [GitHub Issues](https://github.com/modelith/modelith/issues/new/choose) にお寄せください。画面の「ヘルプ → 不具合・要望を送る（GitHub）」からも開けます。
 報告には、次の内容を添えていただけると助かります。
 
-- 使っている Modelith のバージョン（「ヘルプ」の下のほうに出ます。例：`0.1.0-alpha.10`）
+- 使っている Modelith のバージョン（「ヘルプ」の下のほうに出ます。例：`0.1.0-beta.2`）
 - ブラウザと OS（例：Chrome 141・Windows 11）
 - 操作の手順と、起きたこと・期待したこと
 - 再現できる小さなモデル（会社や個人の秘密を含まないもの）
