@@ -11,7 +11,7 @@
 ```
 docs/
   index.md                  ホーム
-  guide/                    ガイド（Modelith とは・はじめての図・画面の見方・ファイル・プラグイン・よくある質問）
+  guide/                    ガイド（Modelith とは・はじめての図・テキストで書く・行き来する・画面の見方・ファイル・プラグイン・よくある質問）
   diagrams/                 図の種類ごとのページ
   sysml/                    SysML v2 の書き方入門・対応している書き方
   releases/                 リリースノート（modelith の docs/releases から写す）

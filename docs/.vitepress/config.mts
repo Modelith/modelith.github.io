@@ -61,7 +61,8 @@ export default defineConfig({
           text: "ガイド",
           items: [
             { text: "Modelith とは", link: "/guide/what-is-modelith" },
-            { text: "はじめての図", link: "/guide/getting-started" },
+            { text: "はじめての図（図だけで作る）", link: "/guide/getting-started" },
+            { text: "テキストで書く・行き来する", link: "/guide/text-and-diagram" },
             { text: "画面の見方", link: "/guide/screen" },
             { text: "ファイルとフォルダ", link: "/guide/files" },
             { text: "チェックルールとプラグイン", link: "/guide/plugins" },

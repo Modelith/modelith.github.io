@@ -11,7 +11,7 @@
 //   MODELITH_URL  アプリの URL（既定 http://localhost:4190/）
 //   MODELITH_WEB  Playwright を借りる modelith の web フォルダ（既定 ../modelith/web）
 //   ONLY          撮る画像の名前を正規表現で絞り込む（例 ONLY=diagram-）
-//   PARTS         撮る場面をカンマ区切りで絞り込む（desktop,dark,coffee,tutorial,phone）
+//   PARTS         撮る場面をカンマ区切りで絞り込む（desktop,dark,coffee,tutorial,text,phone）
 //
 // モデルは docs/public/examples/ の自作の例だけを使う（アプリのサンプルや非公開の資料は使わない）。
 // フォルダを開く操作は、ブラウザ内のファイルシステム（OPFS）を返すように置き換えて、ダイアログを出さずに行う。
@@ -137,6 +137,13 @@ async function pickContext(page, name) {
   await settle(page);
 }
 
+/** メニューバーの「表示」から、ツリーの表示を切り替える。 */
+async function toggleTree(page) {
+  await page.locator("#viewMenu summary").click();
+  await toggleTree(page);
+  await settle(page, 300);
+}
+
 /** 全体図（ミニマップ）を閉じる。 */
 async function hideMinimap(page) {
   if (await page.locator("#mini").isVisible()) await page.locator("#miniHide").click();
@@ -258,7 +265,7 @@ async function desktopShots(browser, colorScheme) {
 
   // 図の種類（ロボット掃除機）。サイドバーを隠して図を広くする
   await hideMinimap(page);
-  await page.locator("#togTree").click();
+  await toggleTree(page);
   await showView(page, "structure");
   await zoom(page, 0);
   await shot(page, "diagram-block-definition");
@@ -281,7 +288,7 @@ async function desktopShots(browser, colorScheme) {
   await shot(page, "diagram-activity");
 
   // 状態遷移図はツリーから開く
-  await page.locator("#togTree").click();
+  await toggleTree(page);
   await page.locator("#sideModel").click();
   const row = page.locator('#tree .ti:has(.nm:text-is("VacuumStates"))');
   await row.hover();
@@ -290,7 +297,7 @@ async function desktopShots(browser, colorScheme) {
   await settle(page);
   await closeOtherTabs(page);
   await page.keyboard.press("Escape");
-  await page.locator("#togTree").click();
+  await toggleTree(page);
   await zoom(page, 0);
   await shot(page, "diagram-state-machine");
 
@@ -330,6 +337,16 @@ async function desktopShots(browser, colorScheme) {
   await page.locator("#fileMenu summary").click();
   await settle(page, 300);
   await shot(page, "file-menu", { clip: await boxOf(page, "#fileMenu .pop", 8) });
+  // メニューバー（「図」のメニューを開いたところ）
+  await page.locator("#diagramMenu summary").hover();
+  await settle(page, 300);
+  {
+    const bar = await boxOf(page, "header");
+    const pop = await boxOf(page, "#diagramMenu .pop", 8);
+    await shot(page, "menubar", { clip: { x: 0, y: 0, width: 760, height: pop.y + pop.height - bar.y } });
+  }
+  await page.locator("#fileMenu summary").hover();
+  await settle(page, 300);
   await page.locator("#btnDrawio").click();
   await settle(page, 300);
   await shot(page, "export-drawio", { clip: await boxOf(page, "#modal .box", 8) });
@@ -377,7 +394,7 @@ async function coffeeShots(browser) {
   await tidy(page);
   await badge(page, [
     ["header .sync", 1, "r"],
-    ["header .menu#fileMenu", 2, "l"],
+    ["#menubar", 2, "r"],
     ["#explorer", 3, "tr"],
     ["#tabbar", 4, "tl"],
     ["#palette", 5, "tr"],
@@ -392,7 +409,7 @@ async function coffeeShots(browser) {
   await unbadge(page);
   await page.keyboard.press("Escape");
   await hideMinimap(page);
-  await page.locator("#togTree").click();
+  await toggleTree(page);
   await zoom(page, 0);
   await shot(page, "diagram-traceability");
   await page.locator("#phaseFilter").selectOption({ value: "SystemRequirements" });
@@ -405,41 +422,131 @@ async function coffeeShots(browser) {
   await page.context().close();
 }
 
-/** はじめての図（自転車のライト）。 */
+/** 「すべて」の図を開き、ほかのタブと全体図を閉じる。 */
+async function showAll(page) {
+  await showView(page, "all");
+  await hideMinimap(page);
+}
+
+/**
+ * パレットの道具で、図の枠の中の位置に要素を置き、名前を付ける。
+ *
+ * @param kind 道具（"part def" など）
+ * @param x 図の枠の左からの位置（px）
+ * @param y 図の枠の上からの位置（px）
+ * @param name 付ける名前
+ * @param before 名前を確定する前に撮る画像の名前（省略可）
+ */
+async function placeAndName(page, kind, x, y, name, before) {
+  const wrap = await page.locator("#wrap").boundingBox();
+  await page.locator(`#palette [data-tool="${kind}"]`).click();
+  await page.mouse.click(wrap.x + x, wrap.y + y);
+  await settle(page);
+  if (await page.locator("#dialog").isVisible()) {
+    await page.locator("#dialog input").first().fill("BicycleLight");
+    await shot(page, "tutorial-2-package");
+    await page.locator('#dialogButtons button:has-text("作成して配置")').click();
+    await settle(page, 1000);
+  }
+  await page.locator("#renameIn").fill(name);
+  await page.locator("#renameIn").press("Enter");
+  await settle(page);
+  if (before) {
+    await waitToast(page);
+    await shot(page, before);
+  }
+}
+
+/** 2 つの要素の間に、図の操作で関係を足す。shotName を渡すと、関係を選ぶところを撮る。 */
+async function connectNodes(page, from, to, rel, shotName) {
+  await clickNode(page, from);
+  await page.locator('#insp [data-act="connect"]').click();
+  await settle(page, 300);
+  await clickNode(page, to);
+  if (shotName) await waitToast(page);
+  if (shotName) await shot(page, shotName, { clip: await boxOf(page, ".diagrampane") });
+  await page.locator(`#insp [data-rel="${rel}"]`).click();
+  await settle(page, 1000);
+}
+
+/** はじめての図（自転車のライト）。図の操作だけで作る。 */
 async function tutorialShots(browser) {
   const page = await openApp(browser, { folder: "my-models", files: {} });
   await closeSample(page);
   await page.locator('#noDoc [data-nodoc="new"]').click();
   await settle(page);
+  await showAll(page);
+  await tidy(page);
   await shot(page, "tutorial-1-new-file");
 
-  const light = examples["bicycle-light.sysml"];
-  await page.locator("#ed").fill(light);
-  await settle(page, 1200);
-  await zoom(page, 0);
-  await hideMinimap(page);
-  await tidy(page);
-  await shot(page, "tutorial-2-text");
-
-  await clickNode(page, "Light");
-  await page.locator('#insp [data-act="connect"]').click();
-  await settle(page, 300);
-  await clickNode(page, "BrightEnough");
-  await settle(page, 300);
-  await shot(page, "tutorial-3-connect", { clip: await boxOf(page, ".diagrampane") });
-  await page.locator('#insp [data-rel="satisfy"]').click();
-  await settle(page, 1000);
-  await shot(page, "tutorial-4-text-updated");
-
+  await placeAndName(page, "requirement def", 330, 60, "BrightEnough");
   await waitToast(page);
+  await clickNode(page, "BrightEnough");
+  await tidy(page);
+  await shot(page, "tutorial-3-requirement");
+  await placeAndName(page, "part def", 330, 230, "Light");
+  await placeAndName(page, "part def", 150, 400, "Battery");
+  await placeAndName(page, "part def", 500, 400, "Led");
+  await connectNodes(page, "Light", "Battery", "comp", "tutorial-4-parts");
+  await connectNodes(page, "Light", "Led", "comp");
+  await connectNodes(page, "Light", "BrightEnough", "satisfy");
+  await page.mouse.move(2, 400);
+  await shot(page, "tutorial-5-satisfy");
+
+  // 内部ブロック図で、battery から led へ流れを引く
+  await waitToast(page);
+  await page.evaluate(() => (document.querySelector(".tabadd").open = true));
+  await page.locator('.tabadd [data-open="ibd"]').click();
+  await settle(page);
+  await hideMinimap(page);
+  const bb = await page.locator('#gNodes [data-key="u:battery"]').first().boundingBox();
+  await page.mouse.click(bb.x + bb.width / 2, bb.y + 12, { button: "right" });
+  await settle(page, 300);
+  await page.locator("#ctx >> text=関係を追加…").click();
+  await settle(page, 300);
+  await clickNode(page, "u:led");
+  await page.locator('#insp [data-rel="flow"]').click();
+  await settle(page, 1000);
+  await zoom(page, 0);
+  await waitToast(page);
+  await tidy(page);
+  await shot(page, "tutorial-6-ibd");
+
   await page.keyboard.press("Control+s");
   await page.locator("#dialog").waitFor();
   await page.locator("#dialog input").first().fill("bicycle-light.sysml");
-  await shot(page, "tutorial-5-save");
+  await shot(page, "tutorial-7-save");
   await page.locator('#dialogButtons button:has-text("保存")').click();
   await settle(page, 1000);
   await waitToast(page);
-  await shot(page, "tutorial-6-saved", { clip: { ...(await boxOf(page, ".treepane")), height: 240 } });
+  await shot(page, "tutorial-8-saved", { clip: { ...(await boxOf(page, ".treepane")), height: 240 } });
+  await page.context().close();
+}
+
+/** テキストで書く・行き来する（自転車のライト）。 */
+async function textShots(browser) {
+  const page = await openApp(browser, { folder: "my-models", files: {} });
+  await closeSample(page);
+  await page.locator('#noDoc [data-nodoc="new"]').click();
+  await settle(page);
+  await showAll(page);
+  await page.locator("#ed").fill(examples["bicycle-light.sysml"]);
+  await settle(page, 1200);
+  await zoom(page, 1);
+  await tidy(page);
+  await shot(page, "text-1-written");
+
+  // トレーサビリティで、検証を置いて要求につなぐ
+  await showView(page, "trace");
+  await hideMinimap(page);
+  await zoom(page, 0);
+  await placeAndName(page, "verification def", 420, 80, "BrightnessTest");
+  await waitToast(page);
+  await connectNodes(page, "BrightnessTest", "BrightEnough", "verify");
+  await zoom(page, 0);
+  await page.mouse.move(2, 400);
+  await shot(page, "text-2-from-diagram");
+  console.log(await page.locator("#ed").inputValue());
   await page.context().close();
 }
 
@@ -468,6 +575,11 @@ async function phoneShots(browser) {
   await page.locator("#tabText").click();
   await settle(page, 500);
   await shot(page, "phone-text");
+  await page.locator("#menuToggle").click();
+  await settle(page, 300);
+  await page.locator("#fileMenu summary").click();
+  await settle(page, 300);
+  await shot(page, "phone-menu");
   await page.context().close();
 }
 
@@ -478,6 +590,7 @@ try {
   if (want("dark")) await desktopShots(browser, "dark");
   if (want("coffee")) await coffeeShots(browser);
   if (want("tutorial")) await tutorialShots(browser);
+  if (want("text")) await textShots(browser);
   if (want("phone")) await phoneShots(browser);
 } finally {
   await browser.close();
