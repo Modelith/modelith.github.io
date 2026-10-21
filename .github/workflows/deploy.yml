@@ -29,7 +29,7 @@ jobs:
           check-latest: true  # 毎回その時点の最新の 22.x を使う（セキュリティリリースをすぐ取り込む）
           cache: npm
       - uses: actions/configure-pages@v5
-      - run: npm ci
+      - run: npm ci --ignore-scripts
       - run: npm run docs:build
       - uses: actions/upload-pages-artifact@v3
         with:
