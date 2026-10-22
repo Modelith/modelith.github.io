@@ -4,27 +4,12 @@
 
 ![ロボット掃除機の掃除の流れ。開始 → leaveDock → sweep → checkBattery の分岐 → goHome → 終了](/images/diagram-activity.jpg)
 
-この図は次のテキストから描いています。
-
-```sysml
-action def CleanRoom {
-    first start;
-    then action leaveDock;
-    then action sweep;
-    then decide checkBattery;
-        if batteryLow then goHome;
-        else sweep;
-    action goHome;
-    first goHome then done;
-}
-```
-
 ## 開く
 
 - ＋メニューの「アクティビティ図」で開き、サブバーの「アクション定義」で対象を選びます。
 - モデルのツリーのアクション定義の「開く」（「アクティビティ図で開く」）でも開けます。タブには `act CleanRoom` のように出ます。
 
-文字が読める大きさで開きます。全体を見るときは、右上の「全体」を押します。
+文字が読める大きさで開きます。全体を見るときは、図の右上の「全体」を押します。
 
 ## 図に出るもの
 
@@ -45,18 +30,36 @@ action def CleanRoom {
 
 アクションは、順序の向きに上から並べます。
 
+## 図で操作する
+
+- 2 つの要素の間に線を引くと（要素を選んで「順序の線を追加」、または縁の「＋」からドラッグ）、「この後に実行する（順序 succession）」を選べます。テキストに `first a then b;` が足されます。
+- 線を選んで削除すると、その順序の文が消えます。
+- アクションを選んで「名前を変更」・「削除」ができます。
+- 名前の無い要素は、図からは線でつなげません。
+
+## テキストで書く
+
+アクション・開始・終了・分岐などの要素は、**図からは足せません。テキストで書きます**（パレットに要素の道具は出ません）。
+上の図は、次のテキストから描いています。アクション定義そのものは、[振る舞い](/diagrams/behavior) などの図のパレットで置けます。
+
+```sysml
+action def CleanRoom {
+    first start;
+    then action leaveDock;
+    then action sweep;
+    then decide checkBattery;
+        if batteryLow then goHome;
+        else sweep;
+    action goHome;
+    first goHome then done;
+}
+```
+
 ::: tip `then` の書き方
 `then b;` は、**直前に書いた要素** からの順序です。`first start;` の後に `then action a;`・`then action b;` と続けると、開始 → a → b の順になります。
 :::
 
-## 図で足す・消す
-
-- アクションや分岐などの要素は、テキストで書きます（パレットに要素の道具は出ません）。
-- 2 つの要素の間に線を引くと（「順序の線を追加」、または縁の「＋」からドラッグ）、「この後に実行する（順序 succession）」を選べます。テキストに `first a then b;` が足されます。
-- 線を選んで削除すると、その順序の文が消えます。
-- 名前の無い要素は、図からは線でつなげません。テキストで名前を付けてください。
-
-## できないこと（0.1.0-beta.3）
+## できないこと（0.1.0-beta.5）
 
 - アクションのパラメータと、その間のフローは描きません。
 - 入れ子のアクションの中の流れ、区画（スイムレーン）は描きません。

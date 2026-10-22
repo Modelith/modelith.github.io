@@ -26,7 +26,7 @@ function slugify(s: string): string {
 }
 
 // リリースノートは新しい順に並べる
-const RELEASES = ["0.1.0-beta.3", "0.1.0-beta.2", "0.1.0-beta.1", "0.1.0-alpha.10", "0.1.0-alpha.9", "0.1.0-alpha.8", "0.1.0-alpha.7", "0.1.0-alpha.6", "0.1.0-alpha.5", "0.1.0-alpha.4", "0.1.0-alpha.2"];
+const RELEASES = ["0.1.0-beta.5", "0.1.0-beta.4", "0.1.0-beta.3", "0.1.0-beta.2", "0.1.0-beta.1", "0.1.0-alpha.10", "0.1.0-alpha.9", "0.1.0-alpha.8", "0.1.0-alpha.7", "0.1.0-alpha.6", "0.1.0-alpha.5", "0.1.0-alpha.4", "0.1.0-alpha.2"];
 
 export default defineConfig({
   lang: "ja",
@@ -61,7 +61,8 @@ export default defineConfig({
           text: "ガイド",
           items: [
             { text: "Modelith とは", link: "/guide/what-is-modelith" },
-            { text: "はじめての図", link: "/guide/getting-started" },
+            { text: "はじめての図（図だけで作る）", link: "/guide/getting-started" },
+            { text: "テキストで書く・行き来する", link: "/guide/text-and-diagram" },
             { text: "画面の見方", link: "/guide/screen" },
             { text: "ファイルとフォルダ", link: "/guide/files" },
             { text: "チェックルールとプラグイン", link: "/guide/plugins" },
@@ -81,8 +82,8 @@ export default defineConfig({
             { text: "アクティビティ図", link: "/diagrams/activity" },
             { text: "状態遷移図", link: "/diagrams/state-machine" },
             { text: "すべて", link: "/diagrams/all" },
-            { text: "保存された図", link: "/diagrams/saved-views" },
-            { text: "図の操作と書き出し", link: "/diagrams/editing" },
+            { text: "新しい図を作成する", link: "/diagrams/create-diagram" },
+            { text: "図の操作とエクスポート", link: "/diagrams/editing" },
           ],
         },
         {

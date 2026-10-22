@@ -18,10 +18,22 @@ Modelith 独自の図で、SysML v2 では GeneralView で描く図に当たり�
 
 式は文字列として表示するだけで、計算はしません（式の計算は 0.3.0 以降の予定です）。
 
-## 図で足す
+## 図で操作する
 
 - パレットの「部品定義」・「制約定義」で要素を置けます。
 - 2 つの部品定義を、両方を部品として持つ部品定義があれば、「関係を追加」の「信号・物理量を流す（flow）」でつなげます。テキストには `flow from sensor to controller;` のような行が足されます。
+
+## テキストで書く
+
+制約の式と、計算定義（`calc def`）の中身は、**図からは書けません。テキストで書きます。** 計算定義は、パレットにも出ません。
+
+```sysml
+constraint def TemperatureRange {
+    attribute t : Real;
+    t >= 90 and t <= 96
+}
+calc def HeaterPower { … }
+```
 
 ::: tip 例のモデル
 この図のモデルは <a href="/examples/coffee-machine.sysml" download>coffee-machine.sysml</a> です。
