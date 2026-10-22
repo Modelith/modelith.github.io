@@ -39,14 +39,19 @@
 | テキストで見る | インスペクタか右クリックの「テキストで見る」 |
 
 足せる関係は、2 つの要素の種類で決まります。追加できる関係が無い組み合わせでは、「この組み合わせで追加できる関係はありません」と出ます。
+要求をつなぐ関係（満たす・検証する・扱う・導出）は、どちらの要素から線を引いても選べます。線を引いた向きで、候補の言葉が変わります。
 
-| 選べる関係 | 元 → 先 | テキスト |
+| 選べる関係 | 線を引く元 → 先 | テキスト |
 | --- | --- | --- |
 | 〜として持つ | 定義 → 定義 | `part battery : Battery;` など |
 | 要求を満たす «satisfy» | 部品定義・部品 → 要求 | `satisfy R by A;` |
+| この部品で満たす «satisfy» | 要求 → 部品定義・部品 | `satisfy R by A;` |
 | 要求を検証する «verify» | 検証 → 要求 | `objective { verify R; }` |
+| この検証で確かめる «verify» | 要求 → 検証 | `objective { verify R; }` |
 | 関心事を扱う «frame» | 要求 → 関心事 | `frame concern c : C;` |
-| この要求から導出する «derive» | 要求 → 要求 | `#derivation dependency from A to B;` |
+| この要求で扱う «frame» | 関心事 → 要求 | `frame concern c : C;` |
+| この要求から導出する «derive» | 要求 → 要求（線の元が下位の要求） | `#derivation dependency from A to B;` |
+| この要求へ展開する «derive» | 要求 → 要求（線の元が上位の要求） | `#derivation dependency from B to A;` |
 | 信号・物理量を流す（flow） | 部品 → 部品 | `flow from a to b;` |
 | この後に実行する（順序 succession） | アクティビティ図の要素どうし | `first a then b;` |
 | この状態から遷移する（transition） | 状態遷移図の状態どうし | `transition first a then b;` |
