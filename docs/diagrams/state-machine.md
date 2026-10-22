@@ -65,7 +65,7 @@ state idle;
     accept StartCommand then cleaning;
 ```
 
-## できないこと（0.1.0-beta.6）
+## できないこと（0.1.0-rc.1）
 
 - `view` に状態定義を複数書いても、最初の 1 つだけを描きます。
 - 状態の使用（`exhibit state s { … }`）の中の遷移は描きません。
