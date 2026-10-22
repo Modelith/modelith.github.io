@@ -428,10 +428,30 @@ async function coffeeShots(browser) {
   await settle(page);
   await zoom(page, 0);
   await shot(page, "diagram-traceability-phase");
+  await gapShots(page);
   await showView(page, "control");
   await zoom(page, 0);
   await shot(page, "diagram-control-loop");
   await page.context().close();
+}
+
+/**
+ * トレースの抜けの案内（コーヒーメーカーの BrewTime には、満たす部品と検証の抜けがある）。
+ * フェーズの絞り込みを「すべて」に戻し、「トレースの抜け N 件」で案内を出してから、「関係を追加」で Machine を選ぶところを撮る（関係は足さない）。
+ */
+async function gapShots(page) {
+  await page.locator("#phaseFilter").selectOption({ index: 0 });
+  await settle(page);
+  await zoom(page, 0);
+  await page.locator("#btnGaps").click();
+  await settle(page, 2000);
+  await shot(page, "trace-gap-guide", { clip: await boxOf(page, ".diagrampane") });
+  await page.locator('#insp [data-act="connect"]').click();
+  await settle(page, 300);
+  await clickNode(page, "Machine");
+  await shot(page, "trace-gap-connect", { clip: await boxOf(page, ".diagrampane") });
+  await page.locator('#insp [data-act="cancel"]').click();
+  await settle(page, 300);
 }
 
 /** 「すべて」の図を開き、ほかのタブと全体図を閉じる。 */
