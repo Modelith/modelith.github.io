@@ -82,8 +82,8 @@ export default defineConfig({
             { text: "アクティビティ図", link: "/diagrams/activity" },
             { text: "状態遷移図", link: "/diagrams/state-machine" },
             { text: "すべて", link: "/diagrams/all" },
-            { text: "保存された図", link: "/diagrams/saved-views" },
-            { text: "図の操作と書き出し", link: "/diagrams/editing" },
+            { text: "新しい図を作成する", link: "/diagrams/create-diagram" },
+            { text: "図の操作とエクスポート", link: "/diagrams/editing" },
           ],
         },
         {

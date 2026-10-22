@@ -7,7 +7,7 @@ aside: false
 Modelith は、SysML v2 のテキストの書き方のうち、よく使う部分から対応しています。
 まだ読めない書き方は、ふつうは問題一覧に「まだ扱えない」と知らせますが、一部は知らせずに読み飛ばします。
 
-この表は **0.1.0-beta.4** 時点の要約です（2026-10-20 に [SysML v2 の規格](https://github.com/Systems-Modeling/SysML-v2-Release) と照合しました）。書き方ごとの詳しい状況は、modelith リポジトリの [SysML v2 仕様との対応表](https://github.com/modelith/modelith/blob/dev/docs/reference/sysml-conformance.md) を見てください。
+この表は **0.1.0-beta.5** 時点の要約です（2026-10-20 に [SysML v2 の規格](https://github.com/Systems-Modeling/SysML-v2-Release) と照合しました）。書き方ごとの詳しい状況は、modelith リポジトリの [SysML v2 仕様との対応表](https://github.com/modelith/modelith/blob/dev/docs/reference/sysml-conformance.md) を見てください。
 
 ## まとめ
 
@@ -15,9 +15,9 @@ Modelith は、SysML v2 のテキストの書き方のうち、よく使う部�
 
 | 状況 | 項目の数 | 意味 |
 | --- | --- | --- |
-| 対応 | 98 | モデルに取り込み、ツリーや図（要素の情報はインスペクタ）に出ます |
-| 一部対応 | 16 | 一部だけ取り込みます。または、書いても中身を使いません |
-| 未対応 | 5 | 取り込みません（エラーにせずに読み飛ばすものを含みます） |
+| 対応 | 98 | モデルに読み込み、ツリーや図（要素の情報はインスペクタ）に出ます |
+| 一部対応 | 16 | 一部だけ読み込みます。または、書いても中身を使いません |
+| 未対応 | 5 | 読み込みません（エラーにせずに読み飛ばすものを含みます） |
 
 ::: info 仕様への適合について
 Modelith は SysML v2 と KerML の仕様をもとに作っていますが、仕様への適合（conformance）はうたっていません。
@@ -29,7 +29,7 @@ Modelith は SysML v2 と KerML の仕様をもとに作っていますが、仕
 | 分類 | 書き方 | 状況 | 足りないところ | 予定 |
 | --- | --- | :---: | --- | --- |
 | パッケージ | `package`（入れ子を含む）、`library package` | 対応 | ライブラリの印は記録しない | — |
-| | `import`、パッケージの直下の `filter`、可視性 `private`・`public` | 未対応 | ほかのパッケージやファイルの名前を `import` で取り込めない | 0.2.0 |
+| | `import`、パッケージの直下の `filter`、可視性 `private`・`public` | 未対応 | ほかのパッケージやファイルの名前を `import` で使えない | 0.2.0 |
 | 名前 | 引用名 `'Fuel Tank'`・短い名前 `<R1>`・修飾名 `A::B`・`alias` | 一部対応 | 同じファイルの中だけ解決する | 0.2.0 |
 | 構造 | `part`・`item`・`attribute`・`port`・`enum`・`occurrence` の定義と使用、`event occurrence`・`timeslice`・`snapshot`・`individual` | 対応 | | |
 | | 型付け `:`・特殊化 `:>`・再定義 `:>>`・参照 `::>`・多重度 `[0..4]`・値 `=`・`:=`・`default`・向き `in`・`out` | 対応 | `: A, B` は先頭の型だけ | — |

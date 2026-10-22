@@ -59,9 +59,9 @@ features:
     linkText: チェックルールとプラグイン
   - icon: ⧉
     title: 他のツールに持ち出す
-    details: 表示中の図を SVG で保存したり、draw.io 形式で書き出したりできます。
-    link: /diagrams/editing#書き出す
-    linkText: 書き出し
+    details: 表示中の図を、SVG 画像や draw.io のファイルとしてエクスポートできます。
+    link: /diagrams/editing#エクスポートする
+    linkText: エクスポート
 ---
 
 <div class="home-shot">
@@ -71,7 +71,7 @@ features:
 </div>
 
 ::: warning 開発中の beta 版です
-いまは **0.1.0 に向けた beta 版**（このマニュアルは 0.1.0-beta.4 に合わせています）です。機能を固定し、0.1.0 までは不具合の修正だけを行います。
+いまは **0.1.0 に向けた beta 版**（このマニュアルは 0.1.0-beta.5 に合わせています）です。機能を固定し、0.1.0 までは不具合の修正だけを行います。
 操作方法や保存形式は、予告なく変わることがあります。大切なモデルは、こまめに手元のファイルとして保存してください。
 不具合のご報告やご要望は、[GitHub Issues](https://github.com/modelith/modelith/issues/new/choose) にお寄せください。
 :::
