@@ -35,6 +35,9 @@ npm run docs:build     # docs/.vitepress/dist にビルド。リンク切れが�
 npm run docs:preview   # ビルドしたサイトを確かめる
 ```
 
+依存は `npm ci` で入れます。インストール時のスクリプトは `.npmrc` で止めてあり、公開から 7 日たっていない版は入れません（急ぎのセキュリティ修正は除く）。
+決まりの全体は Modelith の [依存の追加・更新](https://github.com/modelith/modelith/blob/dev/CONTRIBUTING.md#依存の追加更新) に従います。
+
 ## スクリーンショットを撮り直す
 
 画面のスクリーンショットは、手元で動かした Modelith に、`docs/public/examples/` の例のモデルを読み込ませて撮ります。
