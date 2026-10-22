@@ -317,12 +317,12 @@ async function desktopShots(browser, colorScheme) {
   await page.keyboard.press("Escape");
   await page.keyboard.press("Escape");
 
-  // 図を保存
+  // 新しい図を作成
   await page.locator("#btnSaveView").click();
   await page.locator("#dialog").waitFor();
   await page.locator("#dialog input").first().fill("構成の概要");
-  await shot(page, "save-view-dialog");
-  await page.locator('#dialogButtons button:has-text("保存")').click();
+  await shot(page, "new-diagram-dialog");
+  await page.locator('#dialogButtons button:has-text("作成")').click();
   await settle(page, 1200);
   await tidy(page);
   await page.locator("#ed").evaluate((ed) => {
@@ -331,24 +331,30 @@ async function desktopShots(browser, colorScheme) {
     ed.setSelectionRange(i, i);
     ed.blur();
   });
-  await shot(page, "saved-view");
+  await shot(page, "created-diagram");
 
-  // 書き出し（draw.io）
+  // ファイルのメニュー（「エクスポート…」がある）
   await page.locator("#fileMenu summary").click();
   await settle(page, 300);
   await shot(page, "file-menu", { clip: await boxOf(page, "#fileMenu .pop", 8) });
-  // メニューバー（「図」のメニューを開いたところ）
-  await page.locator("#diagramMenu summary").hover();
+  // メニューバー（「表示」のメニューを開いたところ。下に「線の形」がある）
+  await page.locator("#viewMenu summary").hover();
   await settle(page, 300);
   {
     const bar = await boxOf(page, "header");
-    const pop = await boxOf(page, "#diagramMenu .pop", 8);
+    const pop = await boxOf(page, "#viewMenu .pop", 8);
     await shot(page, "menubar", { clip: { x: 0, y: 0, width: 760, height: pop.y + pop.height - bar.y } });
   }
-  await page.locator("#btnDrawio").click();
+  await tidy(page);
+
+  // エクスポート（「ファイル → エクスポート…」。形式に draw.io を選んだところ）
+  await page.locator("#fileMenu summary").click();
+  await page.locator("#btnExport").click();
+  await page.locator("#exportDialog").waitFor();
+  await page.locator("#exportFormat").selectOption("drawio");
   await settle(page, 300);
-  await shot(page, "export-drawio", { clip: await boxOf(page, "#modal .box", 8) });
-  await page.locator("#modalClose").click();
+  await shot(page, "export-dialog", { clip: await boxOf(page, "#exportDialog .box", 8) });
+  await page.locator("#exportCancel").click();
 
   // 問題一覧（書き間違い）と語の説明
   await showView(page, "structure");
