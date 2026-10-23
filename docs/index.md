@@ -15,6 +15,9 @@ hero:
       text: ブラウザで試す
       link: https://modelith.github.io/modelith/
     - theme: alt
+      text: プレビュー版を試す
+      link: https://modelith.github.io/modelith/preview/
+    - theme: alt
       text: はじめる
       link: /guide/getting-started
     - theme: alt
