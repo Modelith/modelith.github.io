@@ -3,7 +3,7 @@
 Modelith は、システムエンジニア・学生・研究者のための **SysML v2 のモデリングエディタ** です。ブラウザで開くだけで使えます。
 図だけでも、テキストだけでも、両方を行き来しても、同じモデルを作れます。
 
-[ブラウザで試す →](https://modelith.github.io/modelith/)
+[ブラウザで試す →](https://modelith.github.io/modelith/)　[プレビュー版を試す →](https://modelith.github.io/modelith/preview/)
 
 ![Modelith の画面。左にモデルのツリー、中央にロボット掃除機のブロック定義図、右に SysML v2 のテキスト](/images/overview.jpg)
 
@@ -55,8 +55,19 @@ WebAssembly を使えない古いブラウザでは起動できません。「Mo
 いまは **0.1.0 の正式版の候補（rc）** です。機能を固定し、0.1.0 までは不具合の修正だけを行います。
 このマニュアルは **0.1.0-rc.1** に合わせて書いています。操作方法や保存形式は、予告なく変わることがあります。
 
+- 開発中の新しい機能は、**プレビュー版**（[https://modelith.github.io/modelith/preview/](https://modelith.github.io/modelith/preview/)）で先に試せます。→ [プレビュー版](#プレビュー版)
 - 画面左上のメニューバーの「ヘルプ」で、動いているバージョン・ソースコード・ライセンス・このバージョンのテスト結果を確かめられます。
 - 各バージョンの変更点は [リリースノート](/releases/)、この先の予定は [ロードマップ](/roadmap) をご覧ください。
 - 使ってみた感想や「こんな図がほしい」は、[GitHub Issues](https://github.com/modelith/modelith/issues/new/choose) にお寄せください（画面の「ヘルプ → 不具合・要望を送る（GitHub）」からも開けます）。
 
 Modelith はオープンソースです。ソースコードは [GitHub](https://github.com/modelith/modelith) で公開しています（[ライセンスと商標](/license)）。
+
+### プレビュー版
+
+次のバージョンに向けて開発中の機能を入れた版（alpha・beta）を、プレビュー版として [https://modelith.github.io/modelith/preview/](https://modelith.github.io/modelith/preview/) に出しています。
+[https://modelith.github.io/modelith/](https://modelith.github.io/modelith/)（安定版）は、正式版（まだ無いので、今は 0.1.0-rc.1）のままです。
+
+- プレビュー版は、新しいプレリリースを出すたびに替わります。動いているバージョンは「ヘルプ」で、各バージョンで増えた機能は [リリースノート](/releases/) で確かめられます。
+- このマニュアルは安定版に合わせて書いています。プレビュー版で増えた機能は、まだ書いていないことがあります。
+- 前回の続き・下書き・設定・プラグインの許可は、安定版とは別に保存されます。そのため、プレビュー版を初めて開くと空から始まります。手元のファイルは、どちらでも同じものを開けます。
+- 開発中の版のため、安定版より不具合が多いことがあります。気づいたことは [GitHub Issues](https://github.com/modelith/modelith/issues/new/choose) にお寄せください。

@@ -2,6 +2,7 @@ import { defineConfig } from "vitepress";
 import { sysmlGrammar } from "./sysml-grammar";
 
 const APP = "https://modelith.github.io/modelith/";
+const PREVIEW = "https://modelith.github.io/modelith/preview/";
 const REPO = "https://github.com/modelith/modelith";
 
 /**
@@ -53,7 +54,13 @@ export default defineConfig({
       { text: "SysML v2", link: "/sysml/basics", activeMatch: "^/sysml/" },
       { text: "リリースノート", link: "/releases/", activeMatch: "^/releases/" },
       { text: "ロードマップ", link: "/roadmap" },
-      { text: "ブラウザで試す", link: APP },
+      {
+        text: "ブラウザで試す",
+        items: [
+          { text: "安定版", link: APP },
+          { text: "プレビュー版（開発中の新しい機能）", link: PREVIEW },
+        ],
+      },
     ],
     sidebar: {
       "/": [
