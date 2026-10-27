@@ -15,6 +15,18 @@
 | 解析（`analysis def`） | «analysis def» |
 | 要求を満たす要素 | 満たす関係でつながる部品定義など |
 
+要求と検証の箱には、テキストに書いた次のものも区画に書きます。
+
+| 箱 | 区画に書くもの | テキストの例 |
+| --- | --- | --- |
+| 要求 | 要求の文章 | `doc /* 3 分以内に抽出できる温度になる */` |
+| 要求 | 満たすべき制約の式（`{ … }`） | `require constraint { heatUpTime <= 180 }` |
+| 要求 | 前提の式（`assume { … }`） | `assume constraint { roomTemperature >= 5 }` |
+| 要求など | 満たすべき制約の式（`assert { … }`、否定は `assert not { … }`） | `assert constraint { … }`・`assert not constraint { … }` |
+| 検証・解析 | 目的の説明（`objective: …`）と式 | `objective { doc /* … */ verify BrewTime; }` |
+
+パッケージの直下に書いた検証・解析の使用（`verification quickCheck : BrewTimeTest;` など）は、[すべて](/next/diagrams/all) の図と、作成した一般の図に出ます。型の無い検証の使用の中の `verify` からも、検証の線を引きます。
+
 | 関係 | 線 | テキスト |
 | --- | --- | --- |
 | 満たす | «satisfy» の破線の矢印 | `satisfy WaterTemperature by Machine;` |
@@ -43,14 +55,28 @@
 
 ## テキストで書く
 
-要求の文章（`doc`）は、**図からは書けません。テキストで書きます。** 要求を図で置くと `doc /* ここに要求文を書く */` が入るので、その中を書き換えます。
-要求の番号（`<'S1'>` のような短い名前）も、テキストで書きます。
+要求の文章（`doc`）は、要求を選んでインスペクタの「要求の文章を編集」で書けます（要求を図で置くと「ここに要求文を書く」が入るので、そこを書き換えます）。テキストで書いても同じです。
+要求の番号（`<'S1'>` のような短い名前）、制約と前提の式、検証の目的は、**図からは書けません。テキストで書きます。**
 
 ```sysml
 requirement def <'S1'> WaterTemperature {
     doc /* 抽出中のお湯を 90〜96 ℃に保つ */
 }
 satisfy WaterTemperature by Machine;
+
+requirement def <'S3'> HeatUpTime {
+    doc /* 電源を入れてから 3 分以内に抽出できる温度になる */
+    attribute heatUpTime : Real;
+    attribute roomTemperature : Real;
+    assume constraint { roomTemperature >= 5 }     // 前提
+    require constraint { heatUpTime <= 180 }       // 満たすべき制約
+}
+verification def HeatUpTest {
+    objective {
+        doc /* 室温から抽出できる温度になるまでの時間を測る */
+        verify HeatUpTime;
+    }
+}
 ```
 
 ## フェーズ
