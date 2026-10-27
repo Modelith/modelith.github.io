@@ -27,8 +27,13 @@
 | «assign»・«terminate» の四角 | 代入・打ち切り | `assign count := count + 1;`・`terminate;` |
 | «if»・«while»・«for» の四角 | 条件付きの実行・繰り返し・要素ごとの繰り返し（条件と中のアクションの名前を書きます） | `if lowBattery { action beep; }` |
 | 破線の矢印とアイテムのラベル | 順序付きの流れ | `succession flow …` |
+| アクションの縁の小さな四角 | アクションのパラメータ（入力・出力） | `action grind { in beans : Beans; out powder : Powder; }` |
+| 枠の辺の上の小さな四角 | アクション定義そのもののパラメータ（入力は左・出力は右・双方向は下の辺） | `action def MakeCoffee { in beans : Beans; }` |
+| 実線の矢印（パラメータの間） | 流れ（パラメータからパラメータへ物やデータを渡す） | `flow from grind.powder to brew.powder;` |
+| 中に要素と線を描いたアクション | 中に流れを書いたアクション | `action sweep { first start; then action forward; … }` |
+| «performer» と部品の名前を見出しにした破線の四角 | 区画（スイムレーン）。その部品が受け持つアクションを中に並べます | `part drive { perform clean.leaveDock; }` |
 
-アクションは、順序の向きに上から並べます。
+アクションは、順序と流れの向きに上から並べます。区画があるときは、受け持つ部品ごとの列に並べます。
 
 ## 図で操作する
 
@@ -36,6 +41,8 @@
 - 線を選んで削除すると、その順序の文が消えます。
 - アクションを選んで「名前を変更」・「削除」ができます。
 - 名前の無い要素は、図からは線でつなげません。
+- パラメータの間の流れの線も、選んで削除できます。
+- 中に流れを書いたアクションの中の要素も、選んで名前を変えたり、削除したりできます。図から引く順序の線は、同じアクションの中の要素どうしに限ります。
 
 ## テキストで書く
 
@@ -55,14 +62,47 @@ action def CleanRoom {
 }
 ```
 
+### パラメータと流れ
+
+アクションのパラメータ（`in`・`out`・`inout`）は、アクションの縁に描きます。アクション定義そのもののパラメータは、外側の枠の辺の上に描きます。
+パラメータの間の流れ（`flow`）は、実線の矢印で描きます。パラメータの向きや宣言は、テキストで書き換えます。
+
+```sysml
+action def MakeCoffee {
+    in beans : Beans;
+    out coffee : Coffee;
+    action grind { in beans : Beans; out powder : Powder; }
+    action brew { in powder : Powder; out coffee : Coffee; }
+    flow from beans to grind.beans;
+    flow from grind.powder to brew.powder;
+    flow from brew.coffee to coffee;
+}
+```
+
+### 区画（スイムレーン）
+
+部品の本体に `perform 使用の名前.アクションの名前;` を書くと、そのアクションをその部品が受け持つことになり、部品ごとの区画に分けて描きます。
+使用は、そのアクション定義を型にしたアクション（下の例では `clean`）です。
+
+```sysml
+action clean : CleanRoom;
+part robot {
+    perform clean;
+    part drive {
+        perform clean.leaveDock;
+        perform clean.goHome;
+    }
+    part brush {
+        perform clean.sweep;
+    }
+}
+```
+
+この例では、`CleanRoom` のアクティビティ図に、«performer» `robot.drive` と «performer» `robot.brush` の 2 つの区画ができます。
+
 ::: tip `then` の書き方
 `then b;` は、**直前に書いた要素** からの順序です。`first start;` の後に `then action a;`・`then action b;` と続けると、開始 → a → b の順になります。
 :::
-
-## できないこと（0.1.0-rc.1）
-
-- アクションのパラメータと、その間のフローは描きません。
-- 入れ子のアクションの中の流れ、区画（スイムレーン）は描きません。
 
 ::: tip 例のモデル
 この図のモデルは <a href="/examples/robot-vacuum.sysml" download>robot-vacuum.sysml</a> です。

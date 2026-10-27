@@ -18,6 +18,8 @@ SysML v1 の内部ブロック図（ibd）に当たり、SysML v2 では Interco
 | 部品 | «part» の角の丸い四角（`名前 : 型`） | `part battery : Battery;` |
 | 部品の中の部品 | 外の部品の中に描きます | `part def Battery { part cell : Cell; }` |
 | ポート | 部品の縁の小さな四角と名前 | `part def Battery { port pwr : PowerPort; }` |
+| 対象の部品定義そのもののポート | 外側の枠の辺の上の小さな四角と名前（入力は左・出力は右・双方向は下の辺） | `part def Vacuum { in port charge : PowerPort; }` |
+| 型の無い部品のポート | 部品の本体に書いたポートを、部品の縁に描きます | `part sensor { out port data; }` |
 | 接続 | 部品やポートの間の線 | `connect battery.pwr to motor.pwr;`・`connection c : C connect a.p to b.p;`・`interface …` |
 | 3 つ以上をつなぐ接続 | 塗った点から各端への線 | `connect (a, b, c);` |
 | 流れ | 矢印 | `flow from sensor to controller;`・`flow of Water from tank.out to pump.in;` |
@@ -35,7 +37,20 @@ SysML v1 の内部ブロック図（ibd）に当たり、SysML v2 では Interco
 
 - ポートを右クリックすると、「向き：入力」・「向き：出力」・「向き：双方向」で向きを変えたり、「ポートを削除」で消したりできます。
 - ポートはドラッグで、部品の縁に沿って動かせます（位置は図の配置に保存します）。
-- ポートでない線の端（接続点）を右クリックして「ポートにする…」を選ぶと、名前と型を決めてポートにできます。テキストに `port` の宣言が足されます。
+- ポートでない線の端（接続点）を右クリックして「ポートにする…」を選ぶと、名前と型を決めてポートにできます。テキストに `port` の宣言が足されます。部品の中の部品の接続点もポートにでき、つながっていた線の端は `a.x.i` のように部品をたどった形のまま書き換わります。
+
+### 枠の上のポート
+
+対象の部品定義そのもののポート（ブロックの外とのつなぎ口）は、外側の枠の辺の上に描き、そこへの線を引きます。入力（`in`）のポートは左の辺、出力（`out`）は右の辺、双方向（向きを書かないか `inout`）は下の辺に置きます。
+枠の上のポートへの線も、ほかの線と同じく選んで消せます。新しく線を引くときは、テキストで書きます。
+
+```sysml
+part def Vacuum {
+    in port charge : PowerPort;
+    part battery : Battery;
+    connect charge to battery.pwr;
+}
+```
 
 ## テキストで書く
 
@@ -43,7 +58,8 @@ SysML v1 の内部ブロック図（ibd）に当たり、SysML v2 では Interco
 
 - 接続（`connect`）・3 つ以上をつなぐ接続・結び付け（`bind`）・物の流れ（`flow of Water …`）
 - 部品の名前の変更（図では型の名前から自動で付きます）
-- 部品の中の部品と、そのポート
+- 部品の中の部品
+- 枠の上のポート（対象の部品定義そのもののポート）と、そこへの線
 
 ```sysml
 part def Vacuum {
@@ -57,10 +73,9 @@ part def Battery {
 }
 ```
 
-## できないこと（0.1.0-rc.1）
+## できないこと
 
-- 対象の部品定義そのもののポートへの線は描きません。
-- 入れ子の部品のポートを、図で作ることはできません（テキストで書きます）。
+- 枠の上のポートから、図で新しく線を引くことはできません（テキストで書きます）。
 
 ::: tip 例のモデル
 この図のモデルは <a href="/examples/robot-vacuum.sysml" download>robot-vacuum.sysml</a> です。
