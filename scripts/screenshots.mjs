@@ -471,6 +471,9 @@ async function showAll(page) {
  */
 async function placeAndName(page, kind, x, y, name, before) {
   const wrap = await page.locator("#wrap").boundingBox();
+  // 選んでいる要素のインスペクタが置く位置に重ならないよう、先に選択を解く
+  await page.keyboard.press("Escape");
+  await settle(page, 300);
   await page.locator(`#palette [data-tool="${kind}"]`).click();
   await page.mouse.click(wrap.x + x, wrap.y + y);
   await settle(page);
