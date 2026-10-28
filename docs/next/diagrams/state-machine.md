@@ -2,7 +2,7 @@
 
 状態定義の中の **状態** と、状態の間の **遷移** を描く図です。SysML v2 では StateTransitionView です。
 
-![ロボット掃除機の状態遷移図。idle → cleaning → charging → idle](/images/diagram-state-machine.jpg)
+![ロボット掃除機の状態遷移図。idle → cleaning → charging → idle](/images/next/diagram-state-machine.jpg)
 
 ## 開く
 

@@ -3,7 +3,7 @@
 部品の型（部品定義）と、その間の関係を見る図です。システムがどんな部品からできているかを、上から下へ段に分けて描きます。
 SysML v1 のブロック定義図（bdd）に当たり、SysML v2 では GeneralView で描く図です。
 
-![ロボット掃除機のブロック定義図。Vacuum が battery・motor・controller を部品として持つ](/images/diagram-block-definition.jpg)
+![ロボット掃除機のブロック定義図。Vacuum が battery・motor・controller を部品として持つ](/images/next/diagram-block-definition.jpg)
 
 ## 図に出るもの
 

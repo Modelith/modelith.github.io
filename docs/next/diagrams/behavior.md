@@ -4,7 +4,7 @@
 流れや遷移を線で見るときは、[アクティビティ図](/next/diagrams/activity)・[状態遷移図](/next/diagrams/state-machine)・[シーケンス図](/next/diagrams/sequence) を使います。
 SysML v2 では GeneralView で描く図に当たります。
 
-![ロボット掃除機の振る舞い。CleanRoom の手順、VacuumStates の状態と遷移、StartFromApp](/images/diagram-behavior.jpg)
+![ロボット掃除機の振る舞い。CleanRoom の手順、VacuumStates の状態と遷移、StartFromApp](/images/next/diagram-behavior.jpg)
 
 ## 図に出るもの
 

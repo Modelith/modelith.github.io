@@ -44,7 +44,7 @@ package BicycleLight {
 | `attribute voltage = 3.7;` | 属性（値） | Battery の箱の中の行 |
 | `satisfy BrightEnough by Light;` | Light が要求 BrightEnough を満たす | «satisfy» の破線の矢印 |
 
-![テキストを書くと、要求と部品定義が図に出る](/images/text-1-written.jpg)
+![テキストを書くと、要求と部品定義が図に出る](/images/next/text-1-written.jpg)
 
 ::: tip 語の意味を確かめる
 テキストの `requirement def` や `part` などの語にマウスを乗せると、その意味が吹き出しで出ます。カーソルのある語の意味は、テキストの下の行にも出ます。→ [語の説明](/next/guide/screen#語の説明)
@@ -73,7 +73,7 @@ package BicycleLight {
     }
 ```
 
-![図で検証を足すと、テキストに verification def と verify の行が書き足される](/images/text-2-from-diagram.jpg)
+![図で検証を足すと、テキストに verification def と verify の行が書き足される](/images/next/text-2-from-diagram.jpg)
 
 ### テキストを直すと、図が変わる
 

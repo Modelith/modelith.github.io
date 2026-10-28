@@ -3,7 +3,7 @@
 Modelith の画面は、左から **サイドバー（エクスプローラー・モデル・図）**・**図**・**テキスト** の 3 つに分かれています。
 どの部分で操作しても、同じモデル（テキスト）が書き換わり、ほかの部分にすぐ反映します。
 
-![画面の各部分に番号を付けた図](/images/screen-map.jpg)
+![画面の各部分に番号を付けた図](/images/next/screen-map.jpg)
 
 | 番号 | 部分 | 内容 |
 | --- | --- | --- |
@@ -47,8 +47,8 @@ Modelith の画面は、左から **サイドバー（エクスプローラー�
 - 幅の狭い画面では、メニューは左上の「☰」の 1 つにまとまります → [スマホの画面](#スマホの画面)
 
 <div class="figs">
-<img src="/images/menubar.jpg" alt="メニューバー。「表示」のメニューを開いたところ。下に「線の形」がある">
-<img src="/images/file-menu.jpg" alt="ファイルのメニュー。「エクスポート…」がある">
+<img src="/images/next/menubar.jpg" alt="メニューバー。「表示」のメニューを開いたところ。下に「線の形」がある">
+<img src="/images/next/file-menu.jpg" alt="ファイルのメニュー。「エクスポート…」がある">
 </div>
 
 ## サイドバー
@@ -65,7 +65,7 @@ Modelith の画面は、左から **サイドバー（エクスプローラー�
   - エラーのあるファイルの名前は赤く、警告だけのファイルの名前は黄色く表示し、件数を添えます。
   - ファイルやフォルダを右クリックすると、名前の変更・削除・パスのコピーなどのメニューが出ます。→ [右クリックのメニュー](/next/guide/files#右クリックのメニュー)
 
-![フォルダを開いたエクスプローラー](/images/explorer-folder.jpg)
+![フォルダを開いたエクスプローラー](/images/next/explorer-folder.jpg)
 
 ### モデル（ツリー）
 
@@ -77,7 +77,7 @@ Modelith の画面は、左から **サイドバー（エクスプローラー�
 - 右クリックで「テキストで見る」・「この図で選択」・「〜で開く」・「名前を変更」・「削除」などを選べます。
 - 作成した図を表示しているときは、「追加」やドラッグで、要素をその図に入れられます。→ [新しい図を作成する](/next/diagrams/create-diagram)
 
-![ツリーの行の「開く」ボタン](/images/tree-open-button.jpg)
+![ツリーの行の「開く」ボタン](/images/next/tree-open-button.jpg)
 
 ### 図（作成した図）
 
@@ -101,7 +101,7 @@ Modelith の画面は、左から **サイドバー（エクスプローラー�
 キーボードでは、Tab キーで図のタブに移り、左右の矢印キーで隣の図、Home・End で最初・最後の図に切り替えます。
 タブの右の「＋」を押すと、「自動で描く図」（組み込みの図）と「作成した図」の 2 つの見出しに分けて、図の一覧が出ます。項目にマウスを乗せると、SysML v2 の標準のビューの名前が出ます。
 
-![＋メニュー。「自動で描く図」の 8 つの図と、「作成した図」](/images/plus-menu.jpg)
+![＋メニュー。「自動で描く図」の 8 つの図と、「作成した図」](/images/next/plus-menu.jpg)
 
 ### パレット
 
@@ -148,7 +148,7 @@ Modelith の画面は、左から **サイドバー（エクスプローラー�
 - ほかのファイルの要素を選んだときは、どのファイルの要素かと、「そのファイルを開く」が出ます。→ [複数のファイル](/next/guide/files#複数のファイル)
 - トレースの抜けを案内しているときは、先頭に「△ トレースの抜け 1 / N 件目」・何が足りないか・直し方と、「関係を追加」「テキストで見る」が出ます。「‹」「›」で前後の抜けへ移ります。→ [図で見つけて直す](/next/diagrams/traceability#図で見つけて直す)
 
-![部品定義 Vacuum を選んだときのインスペクタ](/images/inspector.jpg)
+![部品定義 Vacuum を選んだときのインスペクタ](/images/next/inspector.jpg)
 
 ## テキスト
 
@@ -168,7 +168,7 @@ Modelith の画面は、左から **サイドバー（エクスプローラー�
 - カーソルのある語の意味は、テキストの下の行に出ます。
 - スマホでは、語をダブルタップすると、その語を選んで意味を出します。
 
-![requirement にマウスを乗せると「要求（requirement def）」の説明が出る](/images/word-help.jpg)
+![requirement にマウスを乗せると「要求（requirement def）」の説明が出る](/images/next/word-help.jpg)
 
 ### 問題一覧
 
@@ -182,7 +182,7 @@ Modelith の画面は、左から **サイドバー（エクスプローラー�
 | △ | トレースの抜け、プラグインのチェック結果（警告） | 「この要求を満たす要素がありません（satisfy）」 |
 | ℹ | まだ扱えない書き方、プラグインのチェック結果（情報） | Modelith がまだ読めない書き方を知らせます |
 
-![問題一覧。型の書き間違いと「;」の書き忘れ](/images/problems.jpg)
+![問題一覧。型の書き間違いと「;」の書き忘れ](/images/next/problems.jpg)
 
 まだ扱えない書き方は、エラーにせずに「まだ扱えない」と知らせます（一部は知らせずに読み飛ばします）。対応状況は [対応している書き方](/next/sysml/support) を見てください。
 
@@ -224,10 +224,10 @@ bicycle.sysml:5: 型「Wheal」が見つかりません（front）
 - ＋メニューでは、図の名前の下に SysML v2 の標準のビューの名前を小さく書きます。
 
 <div class="figs">
-<img class="phone" src="/images/phone-diagram.jpg" alt="スマホでシーケンス図を見ている画面">
-<img class="phone" src="/images/phone-plus-menu.jpg" alt="スマホの＋メニュー。図の名前の下に SysML v2 のビューの名前">
-<img class="phone" src="/images/phone-text.jpg" alt="スマホのテキスト。読み取り専用で、右上に「編集」ボタン">
-<img class="phone" src="/images/phone-menu.jpg" alt="スマホの「☰」のメニュー。ファイル・編集・表示・図・プラグイン・ヘルプが縦に並ぶ">
+<img class="phone" src="/images/next/phone-diagram.jpg" alt="スマホでシーケンス図を見ている画面">
+<img class="phone" src="/images/next/phone-plus-menu.jpg" alt="スマホの＋メニュー。図の名前の下に SysML v2 のビューの名前">
+<img class="phone" src="/images/next/phone-text.jpg" alt="スマホのテキスト。読み取り専用で、右上に「編集」ボタン">
+<img class="phone" src="/images/next/phone-menu.jpg" alt="スマホの「☰」のメニュー。ファイル・編集・表示・図・プラグイン・ヘルプが縦に並ぶ">
 </div>
 
 ## キーボードの操作
