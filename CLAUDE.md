@@ -10,7 +10,8 @@
 - マニュアルは版ごとにフォルダを分け、パスで切り替える（よくあるドキュメントサイトと同じ形）。
   - `docs/guide`・`docs/diagrams`・`docs/sysml`（パス `/`）は安定版（アプリの `/modelith/`）。安定版でできることだけを書く。
   - `docs/next/` の下の同じ 3 つ（パス `/next/`）はプレビュー版（アプリの `/modelith/preview/`）。最新のプレリリースでできることを書く。
-  - リリースノート・ロードマップ・ライセンス・画像・例のモデルは版に関係なく 1 つだけ。
+  - スクリーンショットも版ごとに持つ（安定版は `docs/public/images/`、プレビュー版は `docs/public/images/next/`）。プレビュー版のページは `/images/next/…` を使う。
+  - リリースノート・ロードマップ・ライセンス・例のモデルは版に関係なく 1 つだけ。
   - 両方の版に当てはまる直し（誤字など）は、両方のフォルダを直す。
   - 次の正式版を出したら、`node scripts/copy-version.mjs . <今の安定版の版>`（例：`0.1`）で今の安定版を残し、`node scripts/copy-version.mjs next .` でプレビュー版を安定版に上げる。設定（`docs/.vitepress/config.mts` の `STABLE`・`NEXT`・サイドバー・版の選択）も合わせる。
 - 開発者向けの資料（ADR・要求仕様・対応表・貢献の手順）は写さず、modelith の GitHub へリンクする。
@@ -19,7 +20,7 @@
 ## 非公開の資料
 
 - 本体の `reference/mock/`（モックの HTML とその中のサンプルモデル）は非公開。中身を写さない。スクリーンショットにも使わない。
-- スクリーンショットは `scripts/screenshots.mjs` で、`docs/public/examples/` の例のモデルだけを読み込んで撮る。
+- スクリーンショットは `scripts/screenshots.mjs` で、`docs/public/examples/` の例のモデルだけを読み込んで撮る。撮る版のタグでアプリをビルドし、プレビュー版は `CHANNEL=next` で撮る。
 
 ## 完了の定義
 

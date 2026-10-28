@@ -17,7 +17,8 @@ docs/
   next/                     プレビュー版のマニュアル（guide・diagrams・sysml を同じ形で持つ。パス /next/）
   releases/                 リリースノート（modelith の docs/releases から写す）
   roadmap.md・license.md
-  public/images/            スクリーンショット（scripts/screenshots.mjs で撮る）
+  public/images/            安定版のスクリーンショット（scripts/screenshots.mjs で撮る）
+  public/images/next/       プレビュー版のスクリーンショット
   public/examples/          マニュアルの例のモデル（ダウンロードできる）
   .vitepress/config.mts     サイトの設定（ナビゲーション・サイドバー・検索の日本語表示）
 scripts/
@@ -36,7 +37,10 @@ scripts/
 | `/guide/` など | `docs/guide`・`docs/diagrams`・`docs/sysml` | 安定版（いまは 0.1） |
 | `/next/guide/` など | `docs/next/` の下の同じ 3 つ | プレビュー版（いまは開発中の 0.2） |
 
+スクリーンショットも版ごとに持ちます（安定版は `docs/public/images/`、プレビュー版は `docs/public/images/next/`）。
+
 次の正式版を出したら、今の安定版を版の名前のフォルダに残し、プレビュー版を安定版に上げます。
+ページと一緒に画像も写り、ページの中の画像のパスも写す先の版のものに書き換わります。
 
 ```bash
 node scripts/copy-version.mjs . 0.1     # 今の安定版を /0.1/ に残す
@@ -64,10 +68,12 @@ npm run docs:preview   # ビルドしたサイトを確かめる
 画面のスクリーンショットは、手元で動かした Modelith に、`docs/public/examples/` の例のモデルを読み込ませて撮ります。
 アプリのサンプルや非公開の資料は使いません。
 
-1. [modelith](https://github.com/modelith/modelith) を、このリポジトリの隣（`../modelith`）に clone し、アプリをビルドしてプレビューを起動します。
+1. [modelith](https://github.com/modelith/modelith) を、このリポジトリの隣（`../modelith`）に clone し、撮る版のタグに切り替えて、アプリをビルドしてプレビューを起動します。
+   安定版のマニュアルなら安定版のタグ、プレビュー版のマニュアルなら最新のプレリリースのタグです。
 
    ```bash
    cd ../modelith
+   git checkout v0.2.0-alpha.4   # 撮る版のタグ
    npm ci --prefix web
    scripts/build-wasm.sh
    npm run build --prefix web
@@ -80,7 +86,10 @@ npm run docs:preview   # ビルドしたサイトを確かめる
    npm run screenshots
    # 一部だけ撮り直す：PARTS=desktop,phone npm run screenshots
    # 画像の名前で絞る：ONLY=diagram- npm run screenshots
+   # プレビュー版のマニュアルの画像を撮る：CHANNEL=next npm run screenshots
    ```
+
+   安定版の画像は `docs/public/images/` に、`CHANNEL=next` のときは `docs/public/images/next/` に置かれます。
 
    環境変数 `MODELITH_URL`（既定 `http://localhost:4190/`）・`MODELITH_WEB`（既定 `../modelith/web`）で、アプリの URL と modelith の場所を変えられます。
 
