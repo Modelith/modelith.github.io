@@ -1,17 +1,20 @@
 // マニュアルのスクリーンショットを撮り直すスクリプト。
 //
 // 使い方（README の「スクリーンショットを撮り直す」も参照）:
-//   1. modelith リポジトリでアプリをビルドし、プレビューを起動する
+//   1. modelith リポジトリで、マニュアルの版に合うタグ（安定版は v0.1.0-rc.1、プレビュー版は最新のプレリリース）の
+//      アプリをビルドし、プレビューを起動する
 //        scripts/build-wasm.sh && npm run build --prefix web
 //        (cd web && npx vite preview --port 4190 --strictPort)
-//   2. このリポジトリで実行する
+//   2. このリポジトリで実行する（プレビュー版のマニュアルの画像は CHANNEL=next）
 //        MODELITH_WEB=../modelith/web node scripts/screenshots.mjs
+//        CHANNEL=next MODELITH_WEB=../modelith/web node scripts/screenshots.mjs
 //
 // 環境変数:
 //   MODELITH_URL  アプリの URL（既定 http://localhost:4190/）
 //   MODELITH_WEB  Playwright を借りる modelith の web フォルダ（既定 ../modelith/web）
 //   ONLY          撮る画像の名前を正規表現で絞り込む（例 ONLY=diagram-）
 //   PARTS         撮る場面をカンマ区切りで絞り込む（desktop,dark,coffee,tutorial,text,phone）
+//   CHANNEL       マニュアルの版。stable（既定）は docs/public/images/、next（プレビュー版）は docs/public/images/next/ に置く
 //
 // モデルは docs/public/examples/ の自作の例だけを使う（アプリのサンプルや非公開の資料は使わない）。
 // フォルダを開く操作は、ブラウザ内のファイルシステム（OPFS）を返すように置き換えて、ダイアログを出さずに行う。
@@ -24,7 +27,9 @@ import { fileURLToPath } from "node:url";
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const URL_ = process.env.MODELITH_URL ?? "http://localhost:4190/";
 const WEB = resolve(ROOT, process.env.MODELITH_WEB ?? "../modelith/web");
-const OUT = join(ROOT, "docs/public/images");
+const CHANNEL = process.env.CHANNEL ?? "stable";
+if (CHANNEL !== "stable" && CHANNEL !== "next") throw new Error(`CHANNEL は stable か next です（${CHANNEL}）`);
+const OUT = join(ROOT, CHANNEL === "next" ? "docs/public/images/next" : "docs/public/images");
 const EXAMPLES = join(ROOT, "docs/public/examples");
 const ONLY = process.env.ONLY ? new RegExp(process.env.ONLY) : null;
 const PARTS = process.env.PARTS ? new Set(process.env.PARTS.split(",")) : null;
