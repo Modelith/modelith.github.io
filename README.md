@@ -14,6 +14,7 @@ docs/
   guide/                    ガイド（Modelith とは・はじめての図・テキストで書く・行き来する・画面の見方・ファイル・プラグイン・よくある質問）
   diagrams/                 図の種類ごとのページ
   sysml/                    SysML v2 の書き方入門・対応している書き方
+  next/                     プレビュー版のマニュアル（guide・diagrams・sysml を同じ形で持つ。パス /next/）
   releases/                 リリースノート（modelith の docs/releases から写す）
   roadmap.md・license.md
   public/images/            スクリーンショット（scripts/screenshots.mjs で撮る）
@@ -22,7 +23,27 @@ docs/
 scripts/
   screenshots.mjs           スクリーンショットを撮り直す
   import-release-notes.mjs  リリースノートを写す
+  copy-version.mjs          版のページ（guide・diagrams・sysml）を別の版のフォルダへ写す
 ```
+
+## マニュアルの版
+
+アプリに安定版（`/modelith/`）とプレビュー版（`/modelith/preview/`）があるのに合わせて、マニュアルも版ごとにフォルダを分け、パスで切り替えます。
+上のメニューの「マニュアルの版」で選べ、プレビュー版のページには、そのことと安定版の同じページへのリンクを示す帯が出ます。
+
+| パス | フォルダ | 内容 |
+| --- | --- | --- |
+| `/guide/` など | `docs/guide`・`docs/diagrams`・`docs/sysml` | 安定版（いまは 0.1） |
+| `/next/guide/` など | `docs/next/` の下の同じ 3 つ | プレビュー版（いまは開発中の 0.2） |
+
+次の正式版を出したら、今の安定版を版の名前のフォルダに残し、プレビュー版を安定版に上げます。
+
+```bash
+node scripts/copy-version.mjs . 0.1     # 今の安定版を /0.1/ に残す
+node scripts/copy-version.mjs next .    # プレビュー版を安定版に上げる
+```
+
+そのあと `docs/.vitepress/config.mts` の `STABLE`・`NEXT`、サイドバー、「マニュアルの版」の項目を合わせます。
 
 ## 手元で動かす
 
