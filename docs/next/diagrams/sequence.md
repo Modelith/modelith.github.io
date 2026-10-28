@@ -2,7 +2,7 @@
 
 シナリオ（`occurrence def`）の中で、部品の間でやり取りするメッセージを、時間の順に上から下へ描く図です。SysML v2 では SequenceView です。
 
-![ロボット掃除機のシーケンス図。user から app へ tapStart、app から vacuum へ sendStart](/images/diagram-sequence.jpg)
+![ロボット掃除機のシーケンス図。user から app へ tapStart、app から vacuum へ sendStart](/images/next/diagram-sequence.jpg)
 
 ## 対象を選ぶ
 

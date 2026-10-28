@@ -12,10 +12,11 @@
 //   node scripts/copy-version.mjs . 0.1      # 正式版を出す前に、今の安定版を 0.1 として残す
 //   node scripts/copy-version.mjs next .     # プレビュー版を安定版に上げる
 //
-// ページの中の、ほかの版ごとのページへのリンク（/guide/… など）は、写す先の版のパスに書き換える。
-// リリースノート・ロードマップ・ライセンス・画像・例のモデルは、版に関係なく 1 つだけなので写さない。
+// ページの中の、ほかの版ごとのページへのリンク（/guide/… など）と画像（/images/…）は、写す先の版のパスに書き換える。
+// 画像も版ごとに持つ（安定版は docs/public/images/ の直下、ほかの版は docs/public/images/<版>/）。
+// リリースノート・ロードマップ・ライセンス・例のモデルは、版に関係なく 1 つだけなので写さない。
 
-import { cpSync, existsSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { copyFileSync, cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -36,21 +37,43 @@ export function prefixOf(version) {
 }
 
 /**
- * ページの中の、版ごとのページへのリンクを、写す先の版のパスに書き換える。
+ * ページの中の、版ごとのページへのリンクと画像を、写す先の版のパスに書き換える。
  *
  * @param text ページの Markdown
  * @param from 写す元の版（"." は安定版）
  * @param to 写す先の版
  * @returns 書き換えた Markdown
  * @example
- * rewriteLinks("[見方](/guide/screen)", ".", "next")       // → "[見方](/next/guide/screen)"
- * rewriteLinks("[見方](/next/guide/screen)", "next", ".")  // → "[見方](/guide/screen)"
- * rewriteLinks("![図](/images/a.jpg)", ".", "next")       // → "![図](/images/a.jpg)"（版に関係ないものは変えない）
+ * rewriteLinks("[見方](/guide/screen)", ".", "next")         // → "[見方](/next/guide/screen)"
+ * rewriteLinks("[見方](/next/guide/screen)", "next", ".")    // → "[見方](/guide/screen)"
+ * rewriteLinks("![図](/images/a.jpg)", ".", "next")          // → "![図](/images/next/a.jpg)"
+ * rewriteLinks("![図](/images/next/a.jpg)", "next", "0.2")   // → "![図](/images/0.2/a.jpg)"
+ * rewriteLinks("[例](/examples/a.sysml)", ".", "next")       // → "[例](/examples/a.sysml)"（版に関係ないものは変えない）
  */
 export function rewriteLinks(text, from, to) {
   const src = prefixOf(from).replace(/[.]/g, "\\.");
-  const re = new RegExp(`(\\]\\(|href="|link: ")/${src}(${SECTIONS.join("|")})(?=[/)#"])`, "g");
-  return text.replace(re, `$1/${prefixOf(to)}$2`);
+  const pages = new RegExp(`(\\]\\(|href="|link: ")/${src}(${SECTIONS.join("|")})(?=[/)#"])`, "g");
+  // 画像はフォルダを挟まないファイル名だけを書き換える（安定版から写すとき、/images/next/… を拾わないため）
+  const images = new RegExp(`(\\]\\(|src="|light="|dark=")/images/${src}(?=[^/)"\\s]+[)"\\s])`, "g");
+  return text.replace(pages, `$1/${prefixOf(to)}$2`).replace(images, `$1/images/${prefixOf(to)}`);
+}
+
+/**
+ * 版の画像を、写す元の版のフォルダから写す先の版のフォルダへ写す。写す先にある画像は、先に消す。
+ * 安定版のフォルダ（images の直下）では、ほかの版のフォルダには触れない。
+ *
+ * @param images docs/public/images のパス
+ * @param from 写す元の版
+ * @param to 写す先の版
+ */
+function copyImages(images, from, to) {
+  const src = join(images, prefixOf(from));
+  const dst = join(images, prefixOf(to));
+  if (!existsSync(src)) return;
+  mkdirSync(dst, { recursive: true });
+  const filesIn = (dir) => readdirSync(dir).filter((n) => statSync(join(dir, n)).isFile());
+  for (const name of filesIn(dst)) rmSync(join(dst, name));
+  for (const name of filesIn(src)) copyFileSync(join(src, name), join(dst, name));
 }
 
 /**
@@ -71,7 +94,7 @@ function copyDir(srcDir, dstDir, from, to) {
 }
 
 /**
- * 版ごとの節を、写す元の版から写す先の版へ写す。写す先に同じ節があれば、先に消す。
+ * 版ごとの節と画像を、写す元の版から写す先の版へ写す。写す先に同じ節や画像があれば、先に消す。
  *
  * @param docs docs フォルダのパス
  * @param from 写す元の版
@@ -85,6 +108,7 @@ export function copyVersion(docs, from, to) {
     rmSync(dst, { recursive: true, force: true });
     copyDir(src, dst, from, to);
   }
+  copyImages(join(docs, "public/images"), from, to);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
@@ -95,5 +119,5 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   }
   const docs = resolve(dirname(fileURLToPath(import.meta.url)), "../docs");
   copyVersion(docs, from, to);
-  console.log(`${from} の ${SECTIONS.join("・")} を ${to} へ写しました`);
+  console.log(`${from} の ${SECTIONS.join("・")} と画像を ${to} へ写しました`);
 }

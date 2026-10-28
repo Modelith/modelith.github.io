@@ -2,7 +2,7 @@
 
 アクション定義の中の **流れ**（どのアクションの後に何をするか）を描く図です。SysML v2 では ActionFlowView です。
 
-![ロボット掃除機の掃除の流れ。開始 → leaveDock → sweep → checkBattery の分岐 → goHome → 終了](/images/diagram-activity.jpg)
+![ロボット掃除機の掃除の流れ。開始 → leaveDock → sweep → checkBattery の分岐 → goHome → 終了](/images/next/diagram-activity.jpg)
 
 ## 開く
 

@@ -26,7 +26,7 @@ Modelith は、3 つのどの使い方でも同じモデルを作れます。
 
 続けて、図のタブの右の「＋」を押し、「すべて」を選びます。「すべて」は、どの種類の要素も置ける図です。
 
-![新しいファイルを作り、「すべて」の図を開いたところ。図とテキストは空](/images/tutorial-1-new-file.jpg)
+![新しいファイルを作り、「すべて」の図を開いたところ。図とテキストは空](/images/next/tutorial-1-new-file.jpg)
 
 ::: tip まだ保存先はありません
 新しいファイルには保存先がありません。保存するまでは、このブラウザの中に下書きとして自動で残ります（ブラウザを閉じても、次に開いたときに戻ります）。保存は手順 7 で行います。
@@ -40,11 +40,11 @@ Modelith は、3 つのどの使い方でも同じモデルを作れます。
 2. 図の上の空いているところをクリックします。
 3. 「パッケージを作成します」の画面が出ます。要素はパッケージ（モデルの要素をまとめる入れ物）の中に置くためです。パッケージ名に `BicycleLight` と入れて、「作成して配置」を押します。
 
-![パッケージを作成しますの画面。パッケージ名に BicycleLight](/images/tutorial-2-package.jpg)
+![パッケージを作成しますの画面。パッケージ名に BicycleLight](/images/next/tutorial-2-package.jpg)
 
 要求の箱が置かれ、図の下に名前の入力欄が出ます。`BrightEnough` と入れて Enter を押します（「変更する」を押しても同じです）。
 
-![要求 BrightEnough を置いたところ。テキストに package と requirement def が書き足された](/images/tutorial-3-requirement.jpg)
+![要求 BrightEnough を置いたところ。テキストに package と requirement def が書き足された](/images/next/tutorial-3-requirement.jpg)
 
 右のテキストを見ると、次の内容が自動で書き足されています。パッケージは図には出ず、モデルのツリーの一番上に出ます。
 
@@ -78,7 +78,7 @@ package BicycleLight {
 3. Battery の箱をクリックします。インスペクタに、この 2 つの間に追加できる関係が並びます。
 4. 「部品として持つ」を押します。
 
-![Light から Battery への関係を選ぶところ。「部品として持つ」が選べる](/images/tutorial-4-parts.jpg)
+![Light から Battery への関係を選ぶところ。「部品として持つ」が選べる](/images/next/tutorial-4-parts.jpg)
 
 Light から Battery へ線が引かれ、テキストの Light の中に `part battery : Battery;` が書き足されます。部品の名前（`battery`）は、型の名前から自動で付きます。
 同じようにして、Light に Led も持たせます。
@@ -96,7 +96,7 @@ Light を選んで「関係を追加」を押し、BrightEnough をクリック�
     satisfy BrightEnough by Light;
 ```
 
-![図に «satisfy» の線と部品の線が引かれ、テキストに satisfy の行が足された](/images/tutorial-5-satisfy.jpg)
+![図に «satisfy» の線と部品の線が引かれ、テキストに satisfy の行が足された](/images/next/tutorial-5-satisfy.jpg)
 
 図での操作は、すべてテキストの書き換えになります。操作を取り消すときは、画面左上の「元に戻す」ボタン（左向きに曲がった矢印。Ctrl+Z）を押します。
 
@@ -117,7 +117,7 @@ Light を選んで「関係を追加」を押し、BrightEnough をクリック�
   battery を右クリックして「関係を追加…」を選び、led をクリックして「信号・物理量を流す（flow）」を押すと、電池から LED への流れの矢印が引かれ、テキストに `flow from battery to led;` が書き足されます。
 - **トレーサビリティ** — 要求 BrightEnough と、それを満たす Light が並びます。
 
-![内部ブロック図。Light の中の battery から led へ流れの矢印](/images/tutorial-6-ibd.jpg)
+![内部ブロック図。Light の中の battery から led へ流れの矢印](/images/next/tutorial-6-ibd.jpg)
 
 図の種類は [図の種類と開き方](/next/diagrams/) をご覧ください。
 
@@ -128,12 +128,12 @@ Light を選んで「関係を追加」を押し、BrightEnough をクリック�
 1. フォルダを選ぶ画面が出ます。保存先のフォルダを選び、ブラウザの確認でファイルの編集を許可します。
 2. 「名前を付けて保存」の画面で、ファイル名（例：`bicycle-light.sysml`）を入れて「保存」を押します。
 
-![名前を付けて保存の画面。フォルダ「my-models」に保存する](/images/tutorial-7-save.jpg)
+![名前を付けて保存の画面。フォルダ「my-models」に保存する](/images/next/tutorial-7-save.jpg)
 
 フォルダには、モデルのファイル `bicycle-light.sysml` と、図の配置を入れたファイル `bicycle-light.layout.json` の 2 つができます。
 エクスプローラーにフォルダの中身が出て、以後は Ctrl+S で上書き保存できます。
 
-![エクスプローラーに、保存したファイルが出ている](/images/tutorial-8-saved.jpg)
+![エクスプローラーに、保存したファイルが出ている](/images/next/tutorial-8-saved.jpg)
 
 ::: info Safari・Firefox の場合
 フォルダを開けないため、保存は **ダウンロード** になります。モデル（`.sysml`）と図の配置（`.layout.json`）の 2 つのファイルがダウンロードされます。

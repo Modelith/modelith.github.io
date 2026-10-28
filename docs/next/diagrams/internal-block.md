@@ -3,7 +3,7 @@
 1 つの部品定義の **中身** を見る図です。中の部品・ポート・部品の間の接続や流れを、部品定義の枠の中に描きます。
 SysML v1 の内部ブロック図（ibd）に当たり、SysML v2 では InterconnectionView です。
 
-![ロボット掃除機（Vacuum）の内部ブロック図。battery の電源ポートから motor と controller へ接続](/images/diagram-internal-block.jpg)
+![ロボット掃除機（Vacuum）の内部ブロック図。battery の電源ポートから motor と controller へ接続](/images/next/diagram-internal-block.jpg)
 
 ## 対象を選ぶ
 

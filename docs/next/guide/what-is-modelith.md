@@ -5,7 +5,7 @@ Modelith は、システムエンジニア・学生・研究者のための **Sy
 
 [ブラウザで試す →](https://modelith.github.io/modelith/)　[プレビュー版を試す →](https://modelith.github.io/modelith/preview/)
 
-![Modelith の画面。左にモデルのツリー、中央にロボット掃除機のブロック定義図、右に SysML v2 のテキスト](/images/overview.jpg)
+![Modelith の画面。左にモデルのツリー、中央にロボット掃除機のブロック定義図、右に SysML v2 のテキスト](/images/next/overview.jpg)
 
 ## 3 つの使い方
 
